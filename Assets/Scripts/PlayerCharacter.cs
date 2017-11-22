@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerCharacter : MonoBehaviour
 {
+    public int jumpForce = 20;
+    public int moveSpeed = 20;
 
     public int layerA = 8, layerB = 9;
 
@@ -38,10 +40,10 @@ public class PlayerCharacter : MonoBehaviour
 
         if (Input.GetButtonDown("Jump"))
         {
-            m_Rigid.AddForce(Vector2.up * 20, ForceMode2D.Impulse);
+            m_Rigid.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
 
-        m_Rigid.velocity = m_Rigid.velocity.y * Vector2.up + 20 * Vector2.right;
+        m_Rigid.velocity = m_Rigid.velocity.y * Vector2.up + moveSpeed * Vector2.right;
 
     }
 }

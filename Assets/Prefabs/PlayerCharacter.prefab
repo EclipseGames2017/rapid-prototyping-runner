@@ -36,9 +36,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4353174435893956}
   - component: {fileID: 50516261874577778}
-  - component: {fileID: 61180109063177548}
-  - component: {fileID: 114276715550518378}
   - component: {fileID: 95703168005678744}
+  - component: {fileID: 114276715550518378}
   m_Layer: 8
   m_Name: PlayerCharacter
   m_TagString: Untagged
@@ -364,7 +363,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 10
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -377,31 +376,6 @@ BoxCollider2D:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1150899562710928}
   m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
---- !u!61 &61180109063177548
-BoxCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1427483091592950}
-  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -455,6 +429,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98b37a0884d2e6447b2c593079b69259, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  jumpForce: 20
+  moveSpeed: 10
   layerA: 8
   layerB: 9
   collisionObject: {fileID: 1150899562710928}
@@ -473,8 +449,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: 025e025c89899e44089b64b9dbcd9b8d, type: 3}
-  Transition: {fileID: 2800000, guid: e90c062a356c8c248a08ae4f35841c0c, type: 3}
-  cutoff: 1.01
+  Transition: {fileID: 2800000, guid: fb2cb334f64d33949b1d86a36d1be1d4, type: 3}
+  cutoff: 0
   secondaryCamera: {fileID: 20280092864514238}
 --- !u!124 &124346569321429522
 Behaviour:
