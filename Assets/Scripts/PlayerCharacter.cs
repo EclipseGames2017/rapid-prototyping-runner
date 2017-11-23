@@ -18,6 +18,8 @@ public class PlayerCharacter : MonoBehaviour
     public Rigidbody2D m_Rigid;
     public Animator m_Anim;
 
+    public Transform cameraTransform;
+
     // Use this for initialization
     void Start()
     {
@@ -30,6 +32,7 @@ public class PlayerCharacter : MonoBehaviour
     void Update()
     {
 
+        // Phase swipe, replace with touch swipe
         if (Input.GetButtonDown("Fire1"))
         {
             isLayerA = !isLayerA;
@@ -38,12 +41,20 @@ public class PlayerCharacter : MonoBehaviour
             m_Anim.SetBool("isZoneA", isLayerA);
         }
 
+    }
+
+    private void FixedUpdate()
+    {
+
+        // Movement
+        // replace jump with tap and hold.
+        // add mario jump mechanic
         if (Input.GetButtonDown("Jump"))
         {
             m_Rigid.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
 
         m_Rigid.velocity = m_Rigid.velocity.y * Vector2.up + moveSpeed * Vector2.right;
-
+        
     }
 }
