@@ -145,7 +145,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 1362674014}
   m_Script: {fileID: 11500000, guid: 98b37a0884d2e6447b2c593079b69259, type: 3}
---- !u!84 &695657503
+--- !u!84 &1272723026
 RenderTexture:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -250,6 +250,11 @@ Prefab:
       propertyPath: orthographic size
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 114276715550518378, guid: ef243af336876cd40abe48e9f377c1ef,
+        type: 2}
+      propertyPath: jumpForce
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ef243af336876cd40abe48e9f377c1ef, type: 2}
   m_IsPrefabParent: 0
@@ -301,6 +306,11 @@ Prefab:
         type: 2}
       propertyPath: numInitialTiles
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114866891446486648, guid: 5b17b5f54bf98fb48acf1fc0b274d794,
+        type: 2}
+      propertyPath: jumpLength
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5b17b5f54bf98fb48acf1fc0b274d794, type: 2}

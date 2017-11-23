@@ -7,6 +7,8 @@ public class PlayerCharacter : MonoBehaviour
     public int jumpForce = 20;
     public int moveSpeed = 20;
 
+    private bool canJump = false;
+
     public int layerA = 8, layerB = 9;
 
     bool isLayerA = true;
@@ -17,8 +19,6 @@ public class PlayerCharacter : MonoBehaviour
 
     public Rigidbody2D m_Rigid;
     public Animator m_Anim;
-
-    public Transform cameraTransform;
 
     // Use this for initialization
     void Start()
@@ -49,12 +49,18 @@ public class PlayerCharacter : MonoBehaviour
         // Movement
         // replace jump with tap and hold.
         // add mario jump mechanic
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") && canJump)
         {
             m_Rigid.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            canJump = false;
         }
 
         m_Rigid.velocity = m_Rigid.velocity.y * Vector2.up + moveSpeed * Vector2.right;
         
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        canJump = true;
     }
 }

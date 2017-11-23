@@ -31,7 +31,7 @@ public class LevelGenrator : MonoBehaviour
 
     private Queue<TileBase> spawnedTiles;
     private TileBase mLastTile;
-    private float offscreenDistance = 4.0f;
+    private float offscreenDistance = 8.0f;
 
     // Use this for initialization
     void Start()

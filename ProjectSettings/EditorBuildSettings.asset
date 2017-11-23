@@ -6,5 +6,5 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/GameplayFaking.unity
-    guid: 9625e934016486343b9241ae0554b552
+    path: Assets/Scenes/GeneratedLevel.unity
+    guid: 155bb60f93a195a49b1f5f30a450bbfb
