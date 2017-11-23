@@ -112,7 +112,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!84 &199778825
+--- !u!84 &550907695
 RenderTexture:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -145,6 +145,33 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 1362674014}
   m_Script: {fileID: 11500000, guid: 98b37a0884d2e6447b2c593079b69259, type: 3}
+--- !u!84 &695657503
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_Width: 864
+  m_Height: 486
+  m_AntiAliasing: 1
+  m_DepthFormat: 2
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 0
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
 --- !u!1001 &1362674014
 Prefab:
   m_ObjectHideFlags: 0
@@ -182,13 +209,13 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4353174435893956, guid: ef243af336876cd40abe48e9f377c1ef, type: 2}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 20280092864514238, guid: ef243af336876cd40abe48e9f377c1ef,
         type: 2}
       propertyPath: m_TargetTexture
       value: 
-      objectReference: {fileID: 1580879939}
+      objectReference: {fileID: 550907695}
     - target: {fileID: 61124191962267138, guid: ef243af336876cd40abe48e9f377c1ef,
         type: 2}
       propertyPath: m_EdgeRadius
@@ -203,6 +230,25 @@ Prefab:
         type: 2}
       propertyPath: m_Size.y
       value: 0.98
+      objectReference: {fileID: 0}
+    - target: {fileID: 95703168005678744, guid: ef243af336876cd40abe48e9f377c1ef,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813922651634392, guid: ef243af336876cd40abe48e9f377c1ef, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 20817252031803006, guid: ef243af336876cd40abe48e9f377c1ef,
+        type: 2}
+      propertyPath: orthographic size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 20280092864514238, guid: ef243af336876cd40abe48e9f377c1ef,
+        type: 2}
+      propertyPath: orthographic size
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ef243af336876cd40abe48e9f377c1ef, type: 2}
@@ -244,40 +290,18 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4892715281644374, guid: 5b17b5f54bf98fb48acf1fc0b274d794, type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114866891446486648, guid: 5b17b5f54bf98fb48acf1fc0b274d794,
         type: 2}
       propertyPath: PlayerCharacterRef
       value: 
       objectReference: {fileID: 636357760}
+    - target: {fileID: 114866891446486648, guid: 5b17b5f54bf98fb48acf1fc0b274d794,
+        type: 2}
+      propertyPath: numInitialTiles
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5b17b5f54bf98fb48acf1fc0b274d794, type: 2}
   m_IsPrefabParent: 0
---- !u!84 &1580879939
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_Width: 864
-  m_Height: 486
-  m_AntiAliasing: 1
-  m_DepthFormat: 2
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 0
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1

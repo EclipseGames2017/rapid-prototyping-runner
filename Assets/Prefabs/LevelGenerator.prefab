@@ -51,8 +51,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd5ca3c59d6870348be33b472d751629, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numInitialTiles: 5
+  numInitialTiles: 50
   sectionLength: 8
   jumpLength: 2
+  PlayerCharacterRef: {fileID: 0}
   Floor: {fileID: 114954186911012962, guid: f120c54d7b22ac84eb0ca4e7c86d6987, type: 2}
   Gap: {fileID: 114773120930759488, guid: 919515151b406144987731fc7e290c49, type: 2}
+  ImpassableGap: {fileID: 114023372062539534, guid: b817a4e3cf4c4c641972a2a7bb63a92c,
+    type: 2}
