@@ -6,6 +6,7 @@
 		_SecondTex("AltTexture", 2D) = "black" {}
 		_Transition("Gradient", 2D) = "white" {}
 		_Cutoff ("Cutoff", Range(0.0, 1.0)) = .05
+		_Ratio ("YScale", Float) = 0.625
 	}
 	SubShader
 	{
@@ -44,12 +45,13 @@
 			sampler2D _SecondTex;
 			sampler2D _Transition;
 			float _Cutoff;
+			float _Ratio;
 
 			fixed4 frag (v2f i) : SV_Target
 			{
 				fixed4 col = tex2D(_MainTex, i.uv);
 				
-				if (tex2D(_Transition, i.uv).r >= _Cutoff)
+				if (tex2D(_Transition, i.uv * float2(1.0, _Ratio)).r >= _Cutoff)
 				{
 					col = tex2D(_SecondTex, i.uv);
 				}

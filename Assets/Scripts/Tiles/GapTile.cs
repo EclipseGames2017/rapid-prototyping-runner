@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[ExecuteInEditMode]
 public class GapTile : TileBase
 {
 
@@ -17,15 +16,14 @@ public class GapTile : TileBase
 
     }
 
-    public override void Resize(float newLength)
+    public override void Resize(TileResizeArgs args)
     {
-        base.Resize(newLength);
-        gapComponent.Resize(newLength);
+        base.Resize(args);
+        gapComponent.Resize(args.length);
     }
 
     // Update is called once per frame
     void Update()
     {
-        Resize(Length);
     }
 }

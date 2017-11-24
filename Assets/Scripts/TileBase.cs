@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,9 +18,9 @@ public class TileBase : MonoBehaviour
         mTileType = type;
     }
 
-    public virtual void Resize(float newLength)
+    public virtual void Resize(TileResizeArgs args)
     {
-        length = newLength;
+        length = args.length;
     }
 
     // Use this for initialization
@@ -33,4 +34,13 @@ public class TileBase : MonoBehaviour
     {
 
     }
+}
+
+public class TileResizeArgs
+{
+    public TileResizeArgs(float length)
+    {
+        this.length = length;
+    }
+    public float length;
 }

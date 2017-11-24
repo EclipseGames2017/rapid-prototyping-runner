@@ -23,6 +23,7 @@ public class LevelGenrator : MonoBehaviour
     public float jumpLength = 2;
 
     public PlayerCharacter PlayerCharacterRef;
+    public GameController
 
     public TileBase Floor, Gap, ImpassableGap;
 
@@ -82,13 +83,12 @@ public class LevelGenrator : MonoBehaviour
         // make the first piece
         mLastTile = Instantiate<TileBase>(Floor, transform);
         mLastTile.Init(ETileType.Floor);
-        mLastTile.Resize(sectionLength);
+        mLastTile.Resize(new TileResizeArgs(sectionLength));
         spawnedTiles.Enqueue(mLastTile);
 
         // loop and make the rest referencing the preveous tile
         for (int i = 1; i < numInitialTiles; i++)
         {
-            Debug.Log("Tiles: " + spawnedTiles.Count);
             AddNewTile();
         }
 
@@ -111,13 +111,13 @@ public class LevelGenrator : MonoBehaviour
             case ETileType.Unassigned:
                 break;
             case ETileType.Floor:
-                newTile.Resize(sectionLength);
+                newTile.Resize(new TileResizeArgs(sectionLength));
                 break;
             case ETileType.Gap:
-                newTile.Resize(jumpLength);
+                newTile.Resize(new TileResizeArgs(jumpLength));
                 break;
             case ETileType.ImpassableGap:
-                newTile.Resize(sectionLength);
+                newTile.Resize(new IGapResizeArgs(sectionLength, Rand.value < 0.5));
                 break;
             default:
                 break;

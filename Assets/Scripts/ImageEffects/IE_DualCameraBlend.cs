@@ -35,6 +35,7 @@ public class IE_DualCameraBlend : MonoBehaviour
 
         effectMaterial.SetTexture("_SecondTex", rTarget);
         effectMaterial.SetTexture("_Transition", Transition);
+        effectMaterial.SetFloat("_Ratio", (float)Screen.height / (float)Screen.width);
 
     }
 

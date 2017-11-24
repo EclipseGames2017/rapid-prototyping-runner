@@ -13,7 +13,7 @@ public class FloorTile : TileBase
 
     private void Awake()
     {
-        Resize(Length);
+
     }
 
     // Use this for initialization
@@ -22,16 +22,16 @@ public class FloorTile : TileBase
 
     }
 
-    public override void Resize(float newLength)
+    public override void Resize(TileResizeArgs args)
     {
-        base.Resize(newLength);
-        floorComponentA.Resize(newLength);
-        floorComponentB.Resize(newLength);
+        base.Resize(args);
+        floorComponentA.Resize(args.length);
+        floorComponentB.Resize(args.length);
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Resize(length);
+
     }
 }
