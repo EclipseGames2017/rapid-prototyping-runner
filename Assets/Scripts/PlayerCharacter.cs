@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerCharacter : MonoBehaviour
 {
@@ -20,12 +21,21 @@ public class PlayerCharacter : MonoBehaviour
     public Rigidbody2D m_Rigid;
     public Animator m_Anim;
 
+    public Text distanceText;
+    public float currentTime;
+    public float startTime;
+
+
     // Use this for initialization
     void Start()
     {
         collisionObject.layer = isLayerA ? layerA : layerB;
 
         m_Anim.SetBool("isZoneA", isLayerA);
+
+        currentTime = Time.timeSinceLevelLoad;
+
+        startTime = Time.time;
     }
 
     // Update is called once per frame
@@ -40,6 +50,10 @@ public class PlayerCharacter : MonoBehaviour
 
             m_Anim.SetBool("isZoneA", isLayerA);
         }
+
+        currentTime = Time.time;
+        float meters = (currentTime - startTime) * moveSpeed;
+        distanceText.text = "Meters: " + meters.ToString("f0");
 
     }
 
