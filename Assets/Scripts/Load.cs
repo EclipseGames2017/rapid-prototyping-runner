@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Load : MonoBehaviour {
 
+    public GameObject IGM;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -22,5 +24,25 @@ public class Load : MonoBehaviour {
     public void LoadMenu()
     {
         Application.LoadLevel("MainMenu");
+    }
+
+    public void ShowIGM()
+    {
+        IGM.SetActive(true);
+
+        if (Time.timeScale == 1)
+        {
+            Time.timeScale = 0;
+        }
+    }
+
+    public void hideIGM()
+    {
+        IGM.SetActive(false);
+
+        if (Time.timeScale == 0)
+        {
+            Time.timeScale = 1;
+        }
     }
 }
