@@ -23,7 +23,7 @@ public class LevelGenrator : MonoBehaviour
     public float jumpLength = 2;
 
     public PlayerCharacter PlayerCharacterRef;
-    public GameController
+    //public GameController
 
     public TileBase Floor, Gap, ImpassableGap;
 

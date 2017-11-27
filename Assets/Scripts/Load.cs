@@ -14,7 +14,7 @@ public class Load : MonoBehaviour {
 		
 	}
 
-    void OnClick()
+    public void LoadGame()
     {
         Application.LoadLevel("GeneratedLevel");
     }
