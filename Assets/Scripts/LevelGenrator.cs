@@ -138,7 +138,21 @@ public class LevelGenrator : MonoBehaviour
 
         if (PlayerCharacterRef.transform.position.y < -10)
         {
-            Application.LoadLevel(Application.loadedLevel);
+            //Application.LoadLevel(Application.loadedLevel);
+            if (Time.timeScale == 1)
+            {
+                Time.timeScale = 0;
+                PlayerCharacterRef.FailScreen.SetActive(true);
+            }  
+        }
+
+        if(PlayerCharacterRef.transform.position.y > -10)
+        {
+            if (Time.timeScale == 0)
+            {
+                Time.timeScale = 1;
+                PlayerCharacterRef.FailScreen.SetActive(false);
+            }
         }
     }
 }

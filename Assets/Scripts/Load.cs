@@ -5,6 +5,7 @@ using UnityEngine;
 public class Load : MonoBehaviour {
 
     public GameObject IGM;
+    public GameObject FailScreen;
 
 	// Use this for initialization
 	void Start () {

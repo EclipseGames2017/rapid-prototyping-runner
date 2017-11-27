@@ -25,6 +25,8 @@ public class PlayerCharacter : MonoBehaviour
     public float currentTime;
     public float startTime;
 
+    public GameObject FailScreen;
+
 
     // Use this for initialization
     void Start()
