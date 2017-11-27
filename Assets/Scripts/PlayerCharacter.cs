@@ -22,8 +22,8 @@ public class PlayerCharacter : MonoBehaviour
     public Animator m_Anim;
 
     public Text distanceText;
-    public float currentTime;
-    public float startTime;
+    public float distanceTravelled = 0;
+    Vector2 lastPosition;
 
     public GameObject FailScreen;
 
@@ -39,16 +39,19 @@ public class PlayerCharacter : MonoBehaviour
 
         m_Anim.SetBool("isZoneA", isLayerA);
 
-        currentTime = Time.timeSinceLevelLoad;
+        lastPosition = transform.position;
 
-        startTime = Time.time;
-
-        dragDistance = Screen.height * 15 / 100; //Drag distance is 15% height of the screen.
+        dragDistance = Screen.height * 2 / 100; //Drag distance is 2% height of the screen.
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        distanceTravelled += Vector2.Distance(transform.position, lastPosition);
+        lastPosition = transform.position;
+        distanceText.text = "Meters: " + distanceTravelled.ToString("f0");
+
         if (Input.touchCount == 1) //1 finger is touching screen.
         {
             Touch touch = Input.GetTouch(0); //Gets Touch.
@@ -93,14 +96,15 @@ public class PlayerCharacter : MonoBehaviour
                     }
                 }
             }
+
             else
             {
                 if (canJump)
                 {
                     m_Rigid.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
                     canJump = false;
-                    Debug.Log("Tap");
                 }
+                Debug.Log("Tap");
             }
         }
 
@@ -112,10 +116,7 @@ public class PlayerCharacter : MonoBehaviour
 
             m_Anim.SetBool("isZoneA", isLayerA);
         }*/
-
-        currentTime = Time.time;
-        float meters = (currentTime - startTime) * moveSpeed;
-        distanceText.text = "Meters: " + meters.ToString("f0");
+        
 
     }
 

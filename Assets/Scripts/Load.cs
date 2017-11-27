@@ -6,6 +6,7 @@ public class Load : MonoBehaviour {
 
     public GameObject IGM;
     public GameObject FailScreen;
+    public bool SetActive = false;
 
 	// Use this for initialization
 	void Start () {
@@ -30,20 +31,26 @@ public class Load : MonoBehaviour {
     public void ShowIGM()
     {
         IGM.SetActive(true);
-
-        if (Time.timeScale == 1)
-        {
-            Time.timeScale = 0;
-        }
+        SetActive = true;
     }
 
     public void hideIGM()
     {
         IGM.SetActive(false);
+        SetActive = false;
 
         if (Time.timeScale == 0)
         {
+            SetActive = false;
             Time.timeScale = 1;
+        }
+    }
+
+    public void PauseGame()
+    {
+        if(SetActive == true || Time.timeScale == 1)
+        {
+            Time.timeScale = 0;
         }
     }
 }
