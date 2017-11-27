@@ -177,7 +177,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1616272489048210}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4, y: -0.5, z: -10}
+  m_LocalPosition: {x: 9, y: -0.5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4306170246807658}
@@ -217,7 +217,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 8
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -252,7 +252,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 8
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -392,8 +392,8 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Size: {x: 0.98, y: 0.98}
+  m_EdgeRadius: 0.01
 --- !u!81 &81080222441757738
 AudioListener:
   m_ObjectHideFlags: 1
@@ -437,7 +437,9 @@ MonoBehaviour:
   cameraEffect: {fileID: 114736308395195484}
   m_Rigid: {fileID: 50516261874577778}
   m_Anim: {fileID: 95703168005678744}
-  cameraTransform: {fileID: 0}
+  distanceText: {fileID: 0}
+  distanceTravelled: 0
+  FailScreen: {fileID: 0}
 --- !u!114 &114736308395195484
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -450,7 +452,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: 025e025c89899e44089b64b9dbcd9b8d, type: 3}
-  Transition: {fileID: 2800000, guid: fb2cb334f64d33949b1d86a36d1be1d4, type: 3}
+  Transition: {fileID: 2800000, guid: e90c062a356c8c248a08ae4f35841c0c, type: 3}
   cutoff: 0
   secondaryCamera: {fileID: 20280092864514238}
 --- !u!124 &124346569321429522
