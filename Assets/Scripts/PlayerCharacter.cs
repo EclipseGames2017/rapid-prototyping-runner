@@ -52,6 +52,28 @@ public class PlayerCharacter : MonoBehaviour
         lastPosition = transform.position;
         distanceText.text = "Meters: " + distanceTravelled.ToString("f0");
 
+        #if UNITY_ANDROID || UNITY_IOS
+        DoTouchInput();
+        #endif
+        #if UNITY_DESKTOP || true
+        DoPCInput();
+        #endif
+
+    }
+
+    private void DoPCInput()
+    {
+        if (Input.GetButtonDown("Fire1"))
+        {
+            isLayerA = !isLayerA;
+            collisionObject.layer = isLayerA ? layerA : layerB;
+
+            m_Anim.SetBool("isZoneA", isLayerA);
+        }
+    }
+
+    private void DoTouchInput()
+    {
         if (Input.touchCount == 1) //1 finger is touching screen.
         {
             Touch touch = Input.GetTouch(0); //Gets Touch.
@@ -107,17 +129,6 @@ public class PlayerCharacter : MonoBehaviour
                 Debug.Log("Tap");
             }
         }
-
-        // Phase swipe, replace with touch swipe
-       /* if (Input.GetButtonDown("Fire1"))
-        {
-            isLayerA = !isLayerA;
-            collisionObject.layer = isLayerA ? layerA : layerB;
-
-            m_Anim.SetBool("isZoneA", isLayerA);
-        }*/
-        
-
     }
 
     private void FixedUpdate()
@@ -126,11 +137,13 @@ public class PlayerCharacter : MonoBehaviour
         // Movement
         // replace jump with tap and hold.
         // add mario jump mechanic
-        /*if (Input.GetButtonDown("Jump") && canJump)
+        #if UNITY_DESKTOP || true
+        if (Input.GetButtonDown("Jump") && canJump)
         {
             m_Rigid.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             canJump = false;
-        }*/
+        }
+        #endif
 
         m_Rigid.velocity = m_Rigid.velocity.y * Vector2.up + moveSpeed * Vector2.right;
         
