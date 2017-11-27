@@ -18,4 +18,9 @@ public class Load : MonoBehaviour {
     {
         Application.LoadLevel("GeneratedLevel");
     }
+
+    public void LoadMenu()
+    {
+        Application.LoadLevel("MainMenu");
+    }
 }
