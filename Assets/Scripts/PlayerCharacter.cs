@@ -41,7 +41,7 @@ public class PlayerCharacter : MonoBehaviour
 
         lastPosition = transform.position;
 
-        dragDistance = Screen.height * 2 / 100; //Drag distance is 2% height of the screen.
+        dragDistance = Screen.height * 5 / 100; //Drag distance is 5% height of the screen.
     }
 
     // Update is called once per frame
@@ -111,6 +111,11 @@ public class PlayerCharacter : MonoBehaviour
                     if (lastTouch.y > firstTouch.y) //Checks if drag was Up.
                     {
                         Debug.Log("Up Swipe");
+                        if (canJump)
+                        {
+                            m_Rigid.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+                            canJump = false;
+                        }
                     }
                     else
                     {
@@ -121,11 +126,11 @@ public class PlayerCharacter : MonoBehaviour
 
             else
             {
-                if (canJump)
+                /*if (canJump)
                 {
                     m_Rigid.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
                     canJump = false;
-                }
+                }*/
                 Debug.Log("Tap");
             }
         }
