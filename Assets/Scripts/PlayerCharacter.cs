@@ -9,6 +9,7 @@ public class PlayerCharacter : MonoBehaviour
     public int moveSpeed = 20;
 
     private bool canJump = false;
+    public bool canSpeedUp = true;
 
     public int layerA = 8, layerB = 9;
 
@@ -23,7 +24,9 @@ public class PlayerCharacter : MonoBehaviour
 
     public Text distanceText;
     public float distanceTravelled = 0;
+    public float distanceCounter = 0;
     Vector2 lastPosition;
+    Vector2 lastCounter;
 
     public GameObject FailScreen;
 
@@ -41,6 +44,8 @@ public class PlayerCharacter : MonoBehaviour
 
         lastPosition = transform.position;
 
+        lastCounter = transform.position;
+
         dragDistance = Screen.height * 5 / 100; //Drag distance is 5% height of the screen.
     }
 
@@ -52,15 +57,24 @@ public class PlayerCharacter : MonoBehaviour
         lastPosition = transform.position;
         distanceText.text = "Meters: " + distanceTravelled.ToString("f0");
 
+        distanceCounter += Vector2.Distance(transform.position, lastCounter);
+        lastCounter = transform.position;
+
+        canSpeedUp = true;
+
+        if (distanceCounter >= 500 && canSpeedUp == true)
+        {
+            SpeedUp();
+        }
 
         //handle input for the platform it's on
-        #if UNITY_ANDROID || UNITY_IOS
+#if UNITY_ANDROID || UNITY_IOS
         DoTouchInput();
         #endif
         #if UNITY_DESKTOP || true
         DoPCInput();
-        #endif
-
+#endif
+    
     }
 
     private void DoPCInput()
@@ -74,6 +88,13 @@ public class PlayerCharacter : MonoBehaviour
             // fire the animation for changing cameras
             m_Anim.SetBool("isZoneA", isLayerA);
         }
+    }
+
+    private void SpeedUp()
+    {
+            moveSpeed += 2;
+            canSpeedUp = false;
+            distanceCounter -= 500;
     }
 
     private void DoTouchInput()
