@@ -12,7 +12,7 @@ public class IE_DualCameraBlend : MonoBehaviour
     [Range(0.0f, 1.01f)]
     public float cutoff = 0.5f;
 
-    private Camera mainCamera;
+    public Camera mainCamera;
     public Camera secondaryCamera;
 
     RenderTexture rTarget;
@@ -30,9 +30,6 @@ public class IE_DualCameraBlend : MonoBehaviour
 
         // make a new material from the shader
         effectMaterial = new Material(shader);
-
-        //Shader.SetGlobalTexture("_SecondTex", targetA);
-        //Shader.SetGlobalTexture("_Transition", Transition);
 
         // put the other camera's render texture into the material
         effectMaterial.SetTexture("_SecondTex", rTarget);

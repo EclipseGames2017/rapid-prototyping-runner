@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -27,6 +28,13 @@ public class PlayerCharacter : MonoBehaviour
     public float distanceCounter = 0;
     Vector2 lastPosition;
     Vector2 lastCounter;
+
+    // these can be spent
+    private int spendableTimeCrystals = 5;
+    // these are the total, doesn't go down when spending
+    private int totalTimeCrystals;
+
+    public Text spendableCrystalsText;
 
     public GameObject FailScreen;
 
@@ -60,6 +68,8 @@ public class PlayerCharacter : MonoBehaviour
         distanceCounter += Vector2.Distance(transform.position, lastCounter);
         lastCounter = transform.position;
 
+        spendableCrystalsText.text = "Crystals: " + spendableTimeCrystals;
+
         canSpeedUp = true;
 
         if (distanceCounter >= 500 && canSpeedUp == true)
@@ -70,8 +80,7 @@ public class PlayerCharacter : MonoBehaviour
         //handle input for the platform it's on
 #if UNITY_ANDROID || UNITY_IOS
         DoTouchInput();
-        #endif
-        #if UNITY_DESKTOP || true
+        #else
         DoPCInput();
 #endif
     
@@ -81,12 +90,10 @@ public class PlayerCharacter : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            //swap the collision layer
-            isLayerA = !isLayerA;
-            collisionObject.layer = isLayerA ? layerA : layerB;
-
-            // fire the animation for changing cameras
-            m_Anim.SetBool("isZoneA", isLayerA);
+            if (spendableTimeCrystals >= 1)
+            {
+                DoTimeSwipe();
+            }
         }
     }
 
@@ -124,11 +131,10 @@ public class PlayerCharacter : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log("Left Swipe");
-                        isLayerA = !isLayerA;
-                        collisionObject.layer = isLayerA ? layerA : layerB;
-
-                        m_Anim.SetBool("isZoneA", isLayerA);
+                        if (spendableTimeCrystals >= 1)
+                        {
+                            DoTimeSwipe();
+                        }
                     }
                 }
                 else
@@ -161,6 +167,16 @@ public class PlayerCharacter : MonoBehaviour
         }
     }
 
+    private void DoTimeSwipe()
+    {
+        Debug.Log("Left Swipe");
+        isLayerA = !isLayerA;
+        collisionObject.layer = isLayerA ? layerA : layerB;
+
+        m_Anim.SetBool("isZoneA", isLayerA);
+        spendableTimeCrystals--;
+    }
+
     private void FixedUpdate()
     {
 
@@ -184,5 +200,24 @@ public class PlayerCharacter : MonoBehaviour
     {
         // bad ground checking
         canJump = true;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        switch (collision.tag)
+        {
+            case "Time Crystal":
+                CollectCrystal();
+                Destroy(collision.gameObject);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void CollectCrystal()
+    {
+        spendableTimeCrystals++;
+        totalTimeCrystals++;
     }
 }
