@@ -18,24 +18,18 @@ public class TileBase : MonoBehaviour
         mTileType = type;
     }
 
+    // call this when you spawn it (or move it when object pooling)
     public virtual void Resize(TileResizeArgs args)
     {
         length = args.length;
     }
-
-    // Use this for initialization
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }
 
+
+/*
+ * Stuff you want to tell the tle when you initialize it
+ * here i just want length (eveything needs length)
+ * */
 public class TileResizeArgs
 {
     public TileResizeArgs(float length)

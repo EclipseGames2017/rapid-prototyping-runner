@@ -25,6 +25,7 @@ public class FloorTile : TileBase
     public override void Resize(TileResizeArgs args)
     {
         base.Resize(args);
+        // resize the floor components to the new length
         floorComponentA.Resize(args.length);
         floorComponentB.Resize(args.length);
     }

@@ -52,6 +52,8 @@ public class PlayerCharacter : MonoBehaviour
         lastPosition = transform.position;
         distanceText.text = "Meters: " + distanceTravelled.ToString("f0");
 
+
+        //handle input for the platform it's on
         #if UNITY_ANDROID || UNITY_IOS
         DoTouchInput();
         #endif
@@ -65,9 +67,11 @@ public class PlayerCharacter : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1"))
         {
+            //swap the collision layer
             isLayerA = !isLayerA;
             collisionObject.layer = isLayerA ? layerA : layerB;
 
+            // fire the animation for changing cameras
             m_Anim.SetBool("isZoneA", isLayerA);
         }
     }
@@ -150,12 +154,14 @@ public class PlayerCharacter : MonoBehaviour
         }
         #endif
 
+        // Move Right
         m_Rigid.velocity = m_Rigid.velocity.y * Vector2.up + moveSpeed * Vector2.right;
         
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        // bad ground checking
         canJump = true;
     }
 }

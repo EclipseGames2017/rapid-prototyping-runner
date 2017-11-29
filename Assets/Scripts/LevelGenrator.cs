@@ -23,20 +23,24 @@ public class LevelGenrator : MonoBehaviour
     public float jumpLength = 2;
 
     public PlayerCharacter PlayerCharacterRef;
-    //public GameController
 
+    // this is because you cant edit a dictionary in the inspector
     public TileBase Floor, Gap, ImpassableGap;
 
     public Dictionary<ETileType, TileBase> TileTypeMap;
     public Dictionary<ETileType, ETileType[]> TilespawnRules;
 
+    // queue of tiles i've spawned
     private Queue<TileBase> spawnedTiles;
+    // what was the last tile
     private TileBase mLastTile;
+    // how far off the screen should a tile be before i delete it
     private float offscreenDistance = 8.0f;
 
     // Use this for initialization
     void Start()
     {
+        // map the available tiles to the right Enums
         TileTypeMap = new Dictionary<ETileType, TileBase>
         {
             { ETileType.Floor, Floor },
@@ -47,6 +51,7 @@ public class LevelGenrator : MonoBehaviour
         // Specifies what tiles you can spawn after what
         // Key is last tile
         // Value is array of available tiles
+        // add a new tile to this when you make one
         TilespawnRules = new Dictionary<ETileType, ETileType[]>
         {
             {
@@ -99,13 +104,17 @@ public class LevelGenrator : MonoBehaviour
         //ETileType tileToUse
         ETileType randomTile = ETileType.Unassigned;
 
+        // list of tiles i'm allowed to spawn
         ETileType[] availableTiles = TilespawnRules[mLastTile.TileType];
 
+        // randomly pick the next tile
         randomTile = availableTiles[Rand.Range(0, availableTiles.Length)];
 
+        // instantiate the next tile using the selected ETileType
         TileBase newTile = Instantiate(TileTypeMap[randomTile], new Vector2(mLastTile.transform.position.x + mLastTile.Length, 0.0f), Quaternion.identity, transform);
         newTile.Init(randomTile);
 
+        // initialize the new tile with the right arguments
         switch (randomTile)
         {
             case ETileType.Unassigned:
@@ -122,17 +131,22 @@ public class LevelGenrator : MonoBehaviour
             default:
                 break;
         }
+        // add this new tile to the queue
         spawnedTiles.Enqueue(newTile);
+        // set the last tile to the one we just spawned
         mLastTile = newTile;
     }
 
     // Update is called once per frame
     void Update()
     {
+        // check to see of the next tile in the queue is off the screen (queue means that the first one we pit in is the first one we take out
         if (PlayerCharacterRef.transform.position.x > spawnedTiles.Peek().transform.position.x + spawnedTiles.Peek().Length + offscreenDistance)
         {
             //spawnedTiles.Dequeue();
+            // destroy the tile and remove it from the queue
             Destroy(spawnedTiles.Dequeue().gameObject);
+            // now add a new tile
             AddNewTile();
         }
 
