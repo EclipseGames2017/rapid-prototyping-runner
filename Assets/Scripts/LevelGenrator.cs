@@ -137,7 +137,7 @@ public class LevelGenrator : MonoBehaviour
                 newTile.Resize(new TileResizeArgs(jumpLength));
                 break;
             case ETileType.ImpassableGap:
-                newTile.Resize(new IGapResizeArgs(sectionLength, Rand.value < 0.5));
+                newTile.Resize(new ImpassableTileResizeArgs(sectionLength, Rand.value < 0.5));
                 break;
             default:
                 break;

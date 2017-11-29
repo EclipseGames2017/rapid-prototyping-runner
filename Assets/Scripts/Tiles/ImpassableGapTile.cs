@@ -15,12 +15,12 @@ public class ImpassableGapTile : TileBase
     public override void Resize(TileResizeArgs bargs)
     {
         // like casting the tile args to this class's version
-        IGapResizeArgs args = bargs as IGapResizeArgs;
+        ImpassableTileResizeArgs args = bargs as ImpassableTileResizeArgs;
 
         base.Resize(bargs);
         
         // set isFloorA to whatever the generator wanted
-        isFloorA = args.isFloorA;
+        isFloorA = args.isSideA;
 
         // resize all of the components
         floorA.Resize(args.length);
@@ -38,14 +38,14 @@ public class ImpassableGapTile : TileBase
  * so we extend the base class
  */
 
-public class IGapResizeArgs : TileResizeArgs
+public class ImpassableTileResizeArgs : TileResizeArgs
 {
-    public bool isFloorA;
+    public bool isSideA;
 
-    public IGapResizeArgs(float length, bool isFloorA) : base(length)
+    public ImpassableTileResizeArgs(float length, bool isSideA) : base(length)
     {
         base.length = length;
-        this.isFloorA = isFloorA;
+        this.isSideA = isSideA;
     }
 
     
