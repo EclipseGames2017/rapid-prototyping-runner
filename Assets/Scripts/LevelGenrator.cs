@@ -9,7 +9,8 @@ public enum ETileType
     Unassigned,
     Floor,
     Gap,
-    ImpassableGap
+    ImpassableGap,
+    Wall
 }
 
 public class LevelGenrator : MonoBehaviour
@@ -25,7 +26,7 @@ public class LevelGenrator : MonoBehaviour
     public PlayerCharacter PlayerCharacterRef;
 
     // this is because you cant edit a dictionary in the inspector
-    public TileBase Floor, Gap, ImpassableGap;
+    public TileBase Floor, Gap, ImpassableGap, Wall;
 
     public Dictionary<ETileType, TileBase> TileTypeMap;
     public Dictionary<ETileType, ETileType[]> TilespawnRules;
@@ -45,7 +46,8 @@ public class LevelGenrator : MonoBehaviour
         {
             { ETileType.Floor, Floor },
             { ETileType.Gap, Gap },
-            { ETileType.ImpassableGap, ImpassableGap }
+            { ETileType.ImpassableGap, ImpassableGap },
+            { ETileType.Wall, Wall }
         };
 
         // Specifies what tiles you can spawn after what
@@ -59,7 +61,8 @@ public class LevelGenrator : MonoBehaviour
                 new ETileType[]{
                     ETileType.Floor,
                     ETileType.Gap,
-                    ETileType.ImpassableGap
+                    ETileType.ImpassableGap,
+                    ETileType.Wall
                 }
             },
             {
@@ -70,6 +73,12 @@ public class LevelGenrator : MonoBehaviour
             },
             {
                 ETileType.ImpassableGap,
+                new ETileType[]{
+                    ETileType.Floor
+                }
+            },
+            {
+                ETileType.Wall,
                 new ETileType[]{
                     ETileType.Floor
                 }
