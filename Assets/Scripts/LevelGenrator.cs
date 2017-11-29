@@ -68,19 +68,21 @@ public class LevelGenrator : MonoBehaviour
             {
                 ETileType.Gap,
                 new ETileType[]{
-                    ETileType.Floor
+                    ETileType.Floor,
                 }
             },
             {
                 ETileType.ImpassableGap,
                 new ETileType[]{
-                    ETileType.Floor
+                    ETileType.Floor,
+                    ETileType.Wall
                 }
             },
             {
                 ETileType.Wall,
                 new ETileType[]{
-                    ETileType.Floor
+                    ETileType.Floor,
+                    ETileType.ImpassableGap
                 }
             },
 
