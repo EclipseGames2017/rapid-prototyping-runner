@@ -10,7 +10,8 @@ public enum ETileType
     Floor,
     Gap,
     ImpassableGap,
-    Wall
+    Wall,
+    ImpassableWall
 }
 
 public class LevelGenrator : MonoBehaviour
@@ -26,7 +27,7 @@ public class LevelGenrator : MonoBehaviour
     public PlayerCharacter PlayerCharacterRef;
 
     // this is because you cant edit a dictionary in the inspector
-    public TileBase Floor, Gap, ImpassableGap, Wall;
+    public TileBase Floor, Gap, ImpassableGap, Wall, ImpassableWall;
 
     public Dictionary<ETileType, TileBase> TileTypeMap;
     public Dictionary<ETileType, ETileType[]> TilespawnRules;
@@ -47,7 +48,8 @@ public class LevelGenrator : MonoBehaviour
             { ETileType.Floor, Floor },
             { ETileType.Gap, Gap },
             { ETileType.ImpassableGap, ImpassableGap },
-            { ETileType.Wall, Wall }
+            { ETileType.Wall, Wall },
+            { ETileType.ImpassableWall, ImpassableWall }
         };
 
         // Specifies what tiles you can spawn after what
@@ -62,7 +64,8 @@ public class LevelGenrator : MonoBehaviour
                     ETileType.Floor,
                     ETileType.Gap,
                     ETileType.ImpassableGap,
-                    ETileType.Wall
+                    ETileType.Wall,
+                    ETileType.ImpassableWall
                 }
             },
             {
@@ -85,6 +88,12 @@ public class LevelGenrator : MonoBehaviour
                     ETileType.ImpassableGap
                 }
             },
+            {
+                ETileType.ImpassableWall,
+                new ETileType[]{
+                    ETileType.Floor,
+                }
+            }
 
         };
 
@@ -136,7 +145,13 @@ public class LevelGenrator : MonoBehaviour
             case ETileType.Gap:
                 newTile.Resize(new TileResizeArgs(jumpLength));
                 break;
+            case ETileType.Wall:
+                newTile.Resize(new TileResizeArgs(sectionLength));
+                break;
             case ETileType.ImpassableGap:
+                newTile.Resize(new ImpassableTileResizeArgs(sectionLength, Rand.value < 0.5));
+                break;
+            case ETileType.ImpassableWall:
                 newTile.Resize(new ImpassableTileResizeArgs(sectionLength, Rand.value < 0.5));
                 break;
             default:
