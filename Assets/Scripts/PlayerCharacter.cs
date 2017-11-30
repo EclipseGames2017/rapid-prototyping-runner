@@ -41,8 +41,9 @@ public class PlayerCharacter : MonoBehaviour
 
     public GameObject FailScreen;
 
-    private Vector3 firstTouch;
-    private Vector3 lastTouch;
+    private Vector2 touchStart;
+    //private Vector2 touchEnd;
+
     private float dragDistance;
 
 
@@ -57,7 +58,7 @@ public class PlayerCharacter : MonoBehaviour
 
         lastCounter = transform.position;
 
-        dragDistance = Screen.height * 5 / 100; //Drag distance is 5% height of the screen.
+        dragDistance = Screen.height * 20 / 100; //Drag distance is x% height of the screen.
 
         GameOver = false;
     }
@@ -87,13 +88,23 @@ public class PlayerCharacter : MonoBehaviour
             SceneManager.LoadScene("GameOverTest", LoadSceneMode.Single);
         }
 
+        HandleInput();
+    }
+
+    private void HandleInput()
+    {
         //handle input for the platform it's on
+#if !UNITY_EDITOR
 #if UNITY_ANDROID || UNITY_IOS
         DoTouchInput();
 #else
         DoPCInput();
 #endif
-    
+#else
+        DoTouchInput();
+#endif
+
+
     }
 
     private void DoPCInput()
@@ -102,7 +113,7 @@ public class PlayerCharacter : MonoBehaviour
         {
             if (spendableTimeCrystals >= 1)
             {
-                DoTimeSwipe();
+                HandleSwipeInput();
             }
         }
     }
@@ -116,64 +127,50 @@ public class PlayerCharacter : MonoBehaviour
 
     private void DoTouchInput()
     {
-        if (Input.touchCount == 1) //1 finger is touching screen.
+        if (Input.touches.Length > 0)
         {
-            Touch touch = Input.GetTouch(0); //Gets Touch.
-            if (touch.phase == TouchPhase.Began) //Checks for the first touch.
+            Touch touch0 = Input.touches[0];
+            switch (touch0.phase)
             {
-                firstTouch = touch.position;
-                lastTouch = touch.position;
-            }
-            else if (touch.phase == TouchPhase.Moved) //Updates last Touch.
-            {
-                lastTouch = touch.position;
-            }
-            else if (touch.phase == TouchPhase.Ended) //Checks if finger is off screen.
-                lastTouch = touch.position;
+                case TouchPhase.Began:
+                    touchStart = touch0.position;
+                    break;
+                case TouchPhase.Moved:
+                    break;
+                case TouchPhase.Stationary:
+                    break;
+                case TouchPhase.Ended:
 
-            if (Mathf.Abs(lastTouch.x - firstTouch.x) > dragDistance || Mathf.Abs(lastTouch.y - firstTouch.y) > dragDistance) //it's a drag.
-            {
-                if (Mathf.Abs(lastTouch.x - firstTouch.x) > Mathf.Abs(lastTouch.y - firstTouch.y)) //Checks if horizontal or vertical.
-                {
-                    if ((lastTouch.x > firstTouch.x)) //Checks if drag was to the right.
+                    float distance = Vector2.Distance(touchStart, touch0.position);
+
+                    if (distance > dragDistance)
                     {
-                        Debug.Log("Right Swipe");
+                        HandleSwipeInput();
                     }
                     else
                     {
-                        if (spendableTimeCrystals >= 1)
-                        {
-                            DoTimeSwipe();
-                        }
+                        HandleTapInput();
                     }
-                }
-                else
-                {
-                    if (lastTouch.y > firstTouch.y) //Checks if drag was Up.
-                    {
-                        Debug.Log("Up Swipe");
- 
-                    }
-                    else
-                    {
-                        Debug.Log("Down Swipe");
-                    }
-                }
-            }
-
-            else
-            {
-                if (canJump)
-                {
-                    m_Rigid.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-                    canJump = false;
-                }
-                Debug.Log("Tap");
+                    touchStart = Vector2.zero;
+                    break;
+                case TouchPhase.Canceled:
+                    break;
+                default:
+                    break;
             }
         }
     }
 
-    private void DoTimeSwipe()
+    private void HandleTapInput()
+    {
+        if (canJump)
+        {
+            m_Rigid.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            canJump = false;
+        }
+    }
+
+    private void HandleSwipeInput()
     {
         Debug.Log("Left Swipe");
         isLayerA = !isLayerA;
@@ -189,13 +186,13 @@ public class PlayerCharacter : MonoBehaviour
         // Movement
         // replace jump with tap and hold.
         // add mario jump mechanic
-        #if UNITY_DESKTOP || true
+#if UNITY_DESKTOP || true
         if (Input.GetButtonDown("Jump") && canJump)
         {
             m_Rigid.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             canJump = false;
         }
-        #endif
+#endif
 
         // Move Right
         m_Rigid.velocity = m_Rigid.velocity.y * Vector2.up + moveSpeed * Vector2.right;
