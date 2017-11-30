@@ -4,7 +4,7 @@
 #undef TOUCHMODE
 #endif
 
-#undef TOUCHMODE // Force PC mode
+//#undef TOUCHMODE // Force PC mode
 
 
 using System;
