@@ -1,4 +1,13 @@
-﻿using System;
+﻿#if UNITY_ANDROID || UNITY_IOS
+#define TOUCHMODE
+#else
+#undef TOUCHMODE
+#endif
+
+#undef TOUCHMODE // Force PC mode
+
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,43 +16,47 @@ using UnityEngine.SceneManagement;
 
 public class PlayerCharacter : MonoBehaviour
 {
+    [Header("Movement")]
     public int jumpForce = 20;
     public int moveSpeed = 20;
+
+    private bool doJump;
 
     private bool canJump = false;
     public bool canSpeedUp = true;
 
-    public int layerA = 8, layerB = 9;
+    public Transform jumpCheckStart, jumpCheckEnd;
 
-    bool isLayerA = true;
+    [Header("Personal component Referances")]
+    public Rigidbody2D m_Rigid;
+    public Animator m_Anim;
+    public GameObject collisionObject;
+    public IE_DualCameraBlend cameraEffect;
+
+    // Layer Settings
+    private int layerA = 8, layerB = 9;
+    private bool isLayerA = true;
 
     public bool GameOver;
 
-    public GameObject collisionObject;
-
-    public IE_DualCameraBlend cameraEffect;
-
-    public Rigidbody2D m_Rigid;
-    public Animator m_Anim;
-
+    // Distance Stuff
     public Text distanceText;
     public float distanceTravelled = 0;
     public float distanceCounter = 0;
+
     Vector2 lastPosition;
     Vector2 lastCounter;
 
-    // these can be spent
+    // Time Crystal Stuff
     private int spendableTimeCrystals = 5;
-    // these are the total, doesn't go down when spending
     private int totalTimeCrystals;
 
     public Text spendableCrystalsText;
 
     public GameObject FailScreen;
-
+    
+    // Touch Stuff
     private Vector2 touchStart;
-    //private Vector2 touchEnd;
-
     private float dragDistance;
 
 
@@ -91,17 +104,27 @@ public class PlayerCharacter : MonoBehaviour
         HandleInput();
     }
 
+    private void SpeedUp()
+    {
+            moveSpeed += 2;
+            canSpeedUp = false;
+            distanceCounter -= 500;
+    }
+
+    private void CollectCrystal()
+    {
+        spendableTimeCrystals++;
+        totalTimeCrystals++;
+    }
+
+#region Input
     private void HandleInput()
     {
         //handle input for the platform it's on
-#if !UNITY_EDITOR
-#if UNITY_ANDROID || UNITY_IOS
+#if TOUCHMODE
         DoTouchInput();
 #else
         DoPCInput();
-#endif
-#else
-        DoTouchInput();
 #endif
 
 
@@ -111,18 +134,12 @@ public class PlayerCharacter : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            if (spendableTimeCrystals >= 1)
-            {
-                HandleSwipeInput();
-            }
+            HandleSwipeInput();
         }
-    }
-
-    private void SpeedUp()
-    {
-            moveSpeed += 2;
-            canSpeedUp = false;
-            distanceCounter -= 500;
+        if (Input.GetButtonDown("Jump") && canJump)
+        {
+            doJump = true;
+        }
     }
 
     private void DoTouchInput()
@@ -165,8 +182,8 @@ public class PlayerCharacter : MonoBehaviour
     {
         if (canJump)
         {
-            m_Rigid.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            canJump = false;
+            doJump = true;
+
         }
     }
 
@@ -180,19 +197,29 @@ public class PlayerCharacter : MonoBehaviour
         spendableTimeCrystals--;
     }
 
+#endregion
+
+#region Physics
     private void FixedUpdate()
     {
+        // DoGroundCheck
+        if (Physics2D.Linecast(jumpCheckStart.position, jumpCheckEnd.position) && m_Rigid.velocity.y <= 0)
+        {
+            canJump = true;
+        }
+        else
+        {
+            canJump = false;
+        }
 
-        // Movement
-        // replace jump with tap and hold.
-        // add mario jump mechanic
-#if UNITY_DESKTOP || true
-        if (Input.GetButtonDown("Jump") && canJump)
+
+        // wold be nice to make this use Mario Jump
+        if (doJump)
         {
             m_Rigid.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             canJump = false;
+            doJump = false;
         }
-#endif
 
         // Move Right
         m_Rigid.velocity = m_Rigid.velocity.y * Vector2.up + moveSpeed * Vector2.right;
@@ -202,7 +229,7 @@ public class PlayerCharacter : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // bad ground checking
-        canJump = true;
+        // canJump = true;
 
         if (collision.gameObject.name == "WallQuad")
         {
@@ -224,10 +251,5 @@ public class PlayerCharacter : MonoBehaviour
                 break;
         }
     }
-
-    private void CollectCrystal()
-    {
-        spendableTimeCrystals++;
-        totalTimeCrystals++;
-    }
+#endregion
 }

@@ -27,6 +27,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1227840580951578
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4174455536197896}
+  m_Layer: 8
+  m_Name: Start
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1427483091592950
 GameObject:
   m_ObjectHideFlags: 0
@@ -114,6 +129,49 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1905175641027376
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4887903644276654}
+  m_Layer: 8
+  m_Name: JumpCheckers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1974384834601906
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4709812285949860}
+  m_Layer: 8
+  m_Name: End
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4174455536197896
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1227840580951578}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.5, y: -0.51, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4887903644276654}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4203887643715994
 Transform:
   m_ObjectHideFlags: 1
@@ -167,8 +225,22 @@ Transform:
   - {fileID: 4848698025624732}
   - {fileID: 4813922651634392}
   - {fileID: 4251090947579158}
+  - {fileID: 4887903644276654}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4709812285949860
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1974384834601906}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.5, y: -0.51, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4887903644276654}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4813922651634392
 Transform:
@@ -197,6 +269,21 @@ Transform:
   m_Father: {fileID: 4353174435893956}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4887903644276654
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1905175641027376}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4174455536197896}
+  - {fileID: 4709812285949860}
+  m_Father: {fileID: 4353174435893956}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &20280092864514238
 Camera:
   m_ObjectHideFlags: 1
@@ -206,7 +293,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.42647058, g: 0.14424741, b: 0.14424741, a: 0}
+  m_BackGroundColor: {r: 0.6764706, g: 0.6764706, b: 0.6764706, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -241,7 +328,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.057093423, g: 0.29045463, b: 0.32352942, a: 0}
+  m_BackGroundColor: {r: 0.24599393, g: 0, b: 0.46323532, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -431,14 +518,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpForce: 20
   moveSpeed: 10
-  layerA: 8
-  layerB: 9
-  collisionObject: {fileID: 1150899562710928}
-  cameraEffect: {fileID: 114736308395195484}
+  canSpeedUp: 1
+  jumpCheckStart: {fileID: 4174455536197896}
+  jumpCheckEnd: {fileID: 4709812285949860}
   m_Rigid: {fileID: 50516261874577778}
   m_Anim: {fileID: 95703168005678744}
+  collisionObject: {fileID: 1150899562710928}
+  cameraEffect: {fileID: 114736308395195484}
+  GameOver: 0
   distanceText: {fileID: 0}
   distanceTravelled: 0
+  distanceCounter: 0
+  spendableCrystalsText: {fileID: 0}
   FailScreen: {fileID: 0}
 --- !u!114 &114736308395195484
 MonoBehaviour:
@@ -454,6 +545,7 @@ MonoBehaviour:
   shader: {fileID: 4800000, guid: 025e025c89899e44089b64b9dbcd9b8d, type: 3}
   Transition: {fileID: 2800000, guid: e90c062a356c8c248a08ae4f35841c0c, type: 3}
   cutoff: 0
+  mainCamera: {fileID: 20817252031803006}
   secondaryCamera: {fileID: 20280092864514238}
 --- !u!124 &124346569321429522
 Behaviour:
