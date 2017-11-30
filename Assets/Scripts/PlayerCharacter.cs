@@ -87,7 +87,7 @@ public class PlayerCharacter : MonoBehaviour
         distanceCounter += Vector2.Distance(transform.position, lastCounter);
         lastCounter = transform.position;
 
-        spendableCrystalsText.text = "Crystals: " + spendableTimeCrystals;
+        spendableCrystalsText.text = "CanJump: " + canJump;
 
         canSpeedUp = true;
 
@@ -203,7 +203,9 @@ public class PlayerCharacter : MonoBehaviour
     private void FixedUpdate()
     {
         // DoGroundCheck
-        if (Physics2D.Linecast(jumpCheckStart.position, jumpCheckEnd.position) && m_Rigid.velocity.y <= 0)
+        Vector2 line = jumpCheckEnd.position - jumpCheckStart.position;
+        Debug.DrawLine(jumpCheckStart.position, jumpCheckEnd.position);
+        if (Physics2D.Linecast(jumpCheckStart.position, jumpCheckEnd.position, 1 << collisionObject.layer))
         {
             canJump = true;
         }
