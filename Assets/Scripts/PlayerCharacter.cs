@@ -142,11 +142,7 @@ public class PlayerCharacter : MonoBehaviour
                     if (lastTouch.y > firstTouch.y) //Checks if drag was Up.
                     {
                         Debug.Log("Up Swipe");
-                        if (canJump)
-                        {
-                            m_Rigid.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-                            canJump = false;
-                        }
+ 
                     }
                     else
                     {
@@ -157,11 +153,11 @@ public class PlayerCharacter : MonoBehaviour
 
             else
             {
-                /*if (canJump)
+                if (canJump)
                 {
                     m_Rigid.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
                     canJump = false;
-                }*/
+                }
                 Debug.Log("Tap");
             }
         }
