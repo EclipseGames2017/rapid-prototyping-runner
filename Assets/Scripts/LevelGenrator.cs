@@ -56,13 +56,14 @@ public class LevelGenrator : MonoBehaviour
         // Key is last tile
         // Value is array of available tiles
         // add a new tile to this when you make one
-        TilespawnRules = new Dictionary<ETileType, ETileType[]>
+        if (PlayerCharacterRef.distanceTravelled <= 100)
+        { 
+            TilespawnRules = new Dictionary<ETileType, ETileType[]>
         {
             {
                 ETileType.Floor,
                 new ETileType[]{
                     ETileType.Floor,
-                    ETileType.Gap,
                     ETileType.ImpassableGap,
                     ETileType.Wall,
                     ETileType.ImpassableWall
@@ -72,6 +73,7 @@ public class LevelGenrator : MonoBehaviour
                 ETileType.Gap,
                 new ETileType[]{
                     ETileType.Floor,
+                    ETileType.Wall,
                     ETileType.ImpassableWall
                 }
             },
@@ -87,7 +89,57 @@ public class LevelGenrator : MonoBehaviour
                 new ETileType[]{
                     ETileType.Floor,
                     ETileType.ImpassableGap,
+                    ETileType.ImpassableWall,
+                    ETileType.Wall
+                }
+            },
+            {
+                ETileType.ImpassableWall,
+                new ETileType[]{
+                    ETileType.Floor,
+                }
+            }
+
+            };
+        }
+
+        if (PlayerCharacterRef.distanceTravelled >= 100)
+        {
+            TilespawnRules = new Dictionary<ETileType, ETileType[]>
+        {
+            {
+                ETileType.Floor,
+                new ETileType[]{
+                    ETileType.Floor,
+                    ETileType.Wall,
+                    ETileType.Wall,
                     ETileType.ImpassableWall
+                }
+            },
+            {
+                ETileType.Gap,
+                new ETileType[]{
+                    ETileType.Floor,
+                    ETileType.Wall,
+                    ETileType.ImpassableWall
+                }
+            },
+            {
+                ETileType.ImpassableGap,
+                new ETileType[]{
+                    ETileType.Floor,
+                    ETileType.Wall
+                }
+            },
+            {
+                ETileType.Wall,
+                new ETileType[]{
+                    ETileType.ImpassableGap,
+                    ETileType.ImpassableWall,
+                    ETileType.Wall,
+                    ETileType.Gap,
+                    ETileType.Gap,
+                    ETileType.Gap
                 }
             },
             {
@@ -98,6 +150,7 @@ public class LevelGenrator : MonoBehaviour
             }
 
         };
+        }
 
         InitializeTrack();
     }
