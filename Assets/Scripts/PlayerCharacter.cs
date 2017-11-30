@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerCharacter : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class PlayerCharacter : MonoBehaviour
     public int layerA = 8, layerB = 9;
 
     bool isLayerA = true;
+
+    public bool GameOver;
 
     public GameObject collisionObject;
 
@@ -55,6 +58,8 @@ public class PlayerCharacter : MonoBehaviour
         lastCounter = transform.position;
 
         dragDistance = Screen.height * 5 / 100; //Drag distance is 5% height of the screen.
+
+        GameOver = false;
     }
 
     // Update is called once per frame
@@ -77,10 +82,15 @@ public class PlayerCharacter : MonoBehaviour
             SpeedUp();
         }
 
+        if (GameOver == true)
+        {
+            SceneManager.LoadScene("GameOverTest", LoadSceneMode.Single);
+        }
+
         //handle input for the platform it's on
 #if UNITY_ANDROID || UNITY_IOS
         DoTouchInput();
-        #else
+#else
         DoPCInput();
 #endif
     
@@ -196,6 +206,13 @@ public class PlayerCharacter : MonoBehaviour
     {
         // bad ground checking
         canJump = true;
+
+        if (collision.gameObject.name == "WallQuad")
+        {
+            GameOver = true;
+            Time.timeScale = 0;
+            Debug.Log("HIT");
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

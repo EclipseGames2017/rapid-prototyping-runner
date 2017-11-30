@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Load : MonoBehaviour {
 
     public GameObject IGM;
-    public GameObject FailScreen;
     public bool SetActive = false;
 
 	// Use this for initialization
@@ -20,12 +20,14 @@ public class Load : MonoBehaviour {
 
     public void LoadGame()
     {
-        Application.LoadLevel("GeneratedLevel");
+        SceneManager.LoadScene("GeneratedLevel", LoadSceneMode.Single);
+        //Application.LoadLevel("GeneratedLevel");
     }
 
     public void LoadMenu()
     {
-        Application.LoadLevel("MainMenu");
+        SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+        //Application.LoadLevel("MainMenu");
     }
 
     public void ShowIGM()
