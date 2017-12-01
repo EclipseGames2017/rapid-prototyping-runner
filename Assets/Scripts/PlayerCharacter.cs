@@ -58,6 +58,8 @@ public class PlayerCharacter : MonoBehaviour
     private Vector2 touchStart;
     private float dragDistance;
 
+    public bool IsLayerA { get { return isLayerA; } }
+
 
     // Use this for initialization
     void Start()

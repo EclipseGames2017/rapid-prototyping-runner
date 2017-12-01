@@ -24,13 +24,17 @@ public class LevelGenrator : MonoBehaviour
     [Range(1.0f, 20.0f)]
     public float jumpLength = 2;
 
+    [Range(50, 500)]
+    public float hardSpawnerThreshhold = 100.0f;
+
     public PlayerCharacter PlayerCharacterRef;
 
     // this is because you cant edit a dictionary in the inspector
     public TileBase Floor, Gap, ImpassableGap, Wall, ImpassableWall;
 
     public Dictionary<ETileType, TileBase> TileTypeMap;
-    public Dictionary<ETileType, ETileType[]> TilespawnRules;
+    public Dictionary<ETileType, ETileType[]> spawnRulesEasy;
+    public Dictionary<ETileType, ETileType[]> spawnRulesHard;
 
     // queue of tiles i've spawned
     private Queue<TileBase> spawnedTiles;
@@ -56,17 +60,14 @@ public class LevelGenrator : MonoBehaviour
         // Key is last tile
         // Value is array of available tiles
         // add a new tile to this when you make one
-        if (PlayerCharacterRef.distanceTravelled < 100)
-        { 
-            TilespawnRules = new Dictionary<ETileType, ETileType[]>
+
+        spawnRulesEasy = new Dictionary<ETileType, ETileType[]>
         {
             {
                 ETileType.Floor,
                 new ETileType[]{
-                    ETileType.Floor,
-                    ETileType.ImpassableGap,
-                    ETileType.Wall,
-                    ETileType.ImpassableWall
+                    ETileType.Gap,
+                    ETileType.Wall
                 }
             },
             {
@@ -74,83 +75,71 @@ public class LevelGenrator : MonoBehaviour
                 new ETileType[]{
                     ETileType.Floor,
                     ETileType.Wall,
-                    ETileType.ImpassableWall
-                }
-            },
-            {
-                ETileType.ImpassableGap,
-                new ETileType[]{
-                    ETileType.Floor,
-                    ETileType.Wall
                 }
             },
             {
                 ETileType.Wall,
                 new ETileType[]{
                     ETileType.Floor,
-                    ETileType.ImpassableGap,
-                    ETileType.ImpassableWall,
-                    ETileType.Wall
-                }
-            },
-            {
-                ETileType.ImpassableWall,
-                new ETileType[]{
-                    ETileType.Floor,
-                }
-            }
-
-            };
-        }
-
-        if (PlayerCharacterRef.distanceTravelled > 100)
-        {
-            TilespawnRules = new Dictionary<ETileType, ETileType[]>
-        {
-            {
-                ETileType.Floor,
-                new ETileType[]{
-                    ETileType.Floor,
-                    ETileType.Wall,
-                    ETileType.Wall,
-                    ETileType.ImpassableWall
-                }
-            },
-            {
-                ETileType.Gap,
-                new ETileType[]{
-                    ETileType.Floor,
-                    ETileType.Wall,
-                    ETileType.ImpassableWall
-                }
-            },
-            {
-                ETileType.ImpassableGap,
-                new ETileType[]{
-                    ETileType.Floor,
-                    ETileType.Wall
-                }
-            },
-            {
-                ETileType.Wall,
-                new ETileType[]{
-                    ETileType.ImpassableGap,
-                    ETileType.ImpassableWall,
-                    ETileType.Wall,
                     ETileType.Gap,
-                    ETileType.Gap,
-                    ETileType.Gap
-                }
-            },
-            {
-                ETileType.ImpassableWall,
-                new ETileType[]{
-                    ETileType.Floor,
+                    ETileType.Wall
                 }
             }
 
         };
-        }
+
+        spawnRulesHard = new Dictionary<ETileType, ETileType[]>
+        {
+            {
+                ETileType.Floor,
+                new ETileType[]{
+                    ETileType.Gap,
+                    ETileType.ImpassableGap,
+                    ETileType.Wall,
+                    ETileType.ImpassableWall
+                }
+            },
+            {
+                ETileType.Gap,
+                new ETileType[]{
+                    ETileType.Floor,
+                    ETileType.ImpassableGap,
+                    ETileType.Wall,
+                    ETileType.ImpassableWall
+                }
+            },
+            {
+                ETileType.ImpassableGap,
+                new ETileType[]{
+                    ETileType.Floor,
+                    ETileType.Gap,
+                    ETileType.ImpassableGap,
+                    ETileType.Wall,
+                    ETileType.ImpassableWall
+                }
+            },
+            {
+                ETileType.Wall,
+                new ETileType[]{
+                    ETileType.Floor,
+                    ETileType.Gap,
+                    ETileType.ImpassableGap,
+                    ETileType.Wall,
+                    ETileType.ImpassableWall
+                }
+            },
+            {
+                ETileType.ImpassableWall,
+                new ETileType[]{
+                    ETileType.Floor,
+                    ETileType.Gap,
+                    ETileType.ImpassableGap,
+                    ETileType.Wall,
+                    ETileType.ImpassableWall
+                }
+            }
+
+        };
 
         InitializeTrack();
     }
@@ -180,7 +169,8 @@ public class LevelGenrator : MonoBehaviour
         ETileType randomTile = ETileType.Unassigned;
 
         // list of tiles i'm allowed to spawn
-        ETileType[] availableTiles = TilespawnRules[mLastTile.TileType];
+
+        ETileType[] availableTiles = PlayerCharacterRef.distanceTravelled < hardSpawnerThreshhold ? spawnRulesEasy[mLastTile.TileType] : spawnRulesHard[mLastTile.TileType];
 
         // randomly pick the next tile
         randomTile = availableTiles[Rand.Range(0, availableTiles.Length)];
@@ -204,10 +194,10 @@ public class LevelGenrator : MonoBehaviour
                 newTile.Resize(new TileResizeArgs(sectionLength));
                 break;
             case ETileType.ImpassableGap:
-                newTile.Resize(new ImpassableTileResizeArgs(sectionLength, Rand.value < 0.5));
+                newTile.Resize(new ImpassableTileResizeArgs(sectionLength, !PlayerCharacterRef.IsLayerA));
                 break;
             case ETileType.ImpassableWall:
-                newTile.Resize(new ImpassableTileResizeArgs(sectionLength, Rand.value < 0.5));
+                newTile.Resize(new ImpassableTileResizeArgs(sectionLength, PlayerCharacterRef.IsLayerA));
                 break;
             default:
                 break;
