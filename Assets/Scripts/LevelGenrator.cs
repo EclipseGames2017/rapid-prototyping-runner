@@ -56,7 +56,7 @@ public class LevelGenrator : MonoBehaviour
         // Key is last tile
         // Value is array of available tiles
         // add a new tile to this when you make one
-        if (PlayerCharacterRef.distanceTravelled <= 100)
+        if (PlayerCharacterRef.distanceTravelled < 100)
         { 
             TilespawnRules = new Dictionary<ETileType, ETileType[]>
         {
@@ -103,7 +103,7 @@ public class LevelGenrator : MonoBehaviour
             };
         }
 
-        if (PlayerCharacterRef.distanceTravelled >= 100)
+        if (PlayerCharacterRef.distanceTravelled > 100)
         {
             TilespawnRules = new Dictionary<ETileType, ETileType[]>
         {

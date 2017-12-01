@@ -26,6 +26,7 @@ public class PlayerCharacter : MonoBehaviour
     public bool canSpeedUp = true;
 
     public Transform jumpCheckStart, jumpCheckEnd;
+    public Transform wallCheckStart, wallCheckEnd;
 
     [Header("Personal component Referances")]
     public Rigidbody2D m_Rigid;
@@ -36,8 +37,6 @@ public class PlayerCharacter : MonoBehaviour
     // Layer Settings
     private int layerA = 8, layerB = 9;
     private bool isLayerA = true;
-
-    public bool GameOver;
 
     // Distance Stuff
     public Text distanceText;
@@ -72,8 +71,6 @@ public class PlayerCharacter : MonoBehaviour
         lastCounter = transform.position;
 
         dragDistance = Screen.height * 20 / 100; //Drag distance is x% height of the screen.
-
-        GameOver = false;
     }
 
     // Update is called once per frame
@@ -94,11 +91,6 @@ public class PlayerCharacter : MonoBehaviour
         if (distanceCounter >= 500 && canSpeedUp == true)
         {
             SpeedUp();
-        }
-
-        if (GameOver == true)
-        {
-            SceneManager.LoadScene("GameOverTest", LoadSceneMode.Single);
         }
 
         HandleInput();
@@ -214,6 +206,15 @@ public class PlayerCharacter : MonoBehaviour
             canJump = false;
         }
 
+        Vector2 wall = wallCheckEnd.position - wallCheckStart.position;
+        Debug.DrawLine(wallCheckStart.position, wallCheckEnd.position);
+        if (Physics2D.Linecast(wallCheckStart.position, wallCheckEnd.position, 1 << collisionObject.layer))
+        {
+            //SceneManager.LoadScene("GameOverTest", LoadSceneMode.Single);
+            FailScreen.SetActive(true);
+        }
+
+
 
         // wold be nice to make this use Mario Jump
         if (doJump)
@@ -233,12 +234,12 @@ public class PlayerCharacter : MonoBehaviour
         // bad ground checking
         // canJump = true;
 
-        if (collision.gameObject.name == "WallQuad")
+        /*if (collision.gameObject.name == "WallQuad")
         {
             GameOver = true;
             Time.timeScale = 0;
             Debug.Log("HIT");
-        }
+        }*/
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
