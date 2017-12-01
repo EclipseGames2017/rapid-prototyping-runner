@@ -6,8 +6,8 @@ public class ImpassableGapTile : TileBase
 {
 
     // components for the floor on side a And b
-    public GapComponent gap;
     public FloorComponent floorA, floorB;
+    public FloorComponent dummyFloorA, dummyFloorB;
 
     // is the floor on side A or B
     private bool isFloorA;
@@ -25,11 +25,14 @@ public class ImpassableGapTile : TileBase
         // resize all of the components
         floorA.Resize(args.length);
         floorB.Resize(args.length);
-        gap.Resize(args.length);
+        dummyFloorA.Resize(args.length);
+        dummyFloorB.Resize(args.length);
 
         // Hide whatever floor tile we dont want
         floorA.gameObject.SetActive(isFloorA);
         floorB.gameObject.SetActive(!isFloorA);
+        dummyFloorA.gameObject.SetActive(!isFloorA);
+        dummyFloorB.gameObject.SetActive(isFloorA);
     }
 }
 

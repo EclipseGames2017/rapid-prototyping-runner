@@ -5,6 +5,7 @@ using UnityEngine;
 public class ImpassableWallTile : WallTile
 {
     private bool isWallA;
+    public WallComponent dummyWallA, dummyWallB;
 
     public override void Resize(TileResizeArgs bargs)
     {
@@ -16,6 +17,9 @@ public class ImpassableWallTile : WallTile
 
         wallComponentA.gameObject.SetActive(isWallA);
         wallComponentB.gameObject.SetActive(!isWallA);
+
+        dummyWallA.gameObject.SetActive(!isWallA);
+        dummyWallB.gameObject.SetActive(isWallA);
     }
 
     // Use this for initialization
