@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 81481251a1b7ecd41bbec60bbb843100
+timeCreated: 1512381738
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Fast Money
+  fontNames:
+  - Fast Money
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
