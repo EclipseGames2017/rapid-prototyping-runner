@@ -81,7 +81,7 @@ public class PlayerCharacter : MonoBehaviour
 
         distanceTravelled += Vector2.Distance(transform.position, lastPosition);
         lastPosition = transform.position;
-        distanceText.text = "Meters: " + distanceTravelled.ToString("f0");
+        distanceText.text = "Score: " + distanceTravelled.ToString("f0");
 
         distanceCounter += Vector2.Distance(transform.position, lastCounter);
         lastCounter = transform.position;
