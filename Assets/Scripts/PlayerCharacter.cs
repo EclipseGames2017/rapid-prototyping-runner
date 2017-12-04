@@ -18,7 +18,12 @@ public class PlayerCharacter : MonoBehaviour
 {
     [Header("Movement")]
     public int jumpForce = 20;
-    public int moveSpeed = 20;
+    public float moveSpeed = 10;
+
+    public float speedupTime;
+    public Vector2[] distanceSpeedMap;
+
+    private float movespeedHard = 15;
 
     private bool doJump;
 
@@ -91,10 +96,19 @@ public class PlayerCharacter : MonoBehaviour
 
         canSpeedUp = true;
 
-        if (distanceCounter >= 500 && canSpeedUp == true)
+        for (int i = 1; i < distanceSpeedMap.Length; i++)
         {
-            SpeedUp();
+            if (distanceTravelled > distanceSpeedMap[i-1].x && distanceTravelled < distanceSpeedMap[i].x)
+            {
+                moveSpeed = Mathf.Lerp(moveSpeed, distanceSpeedMap[i - 1].y, Time.deltaTime / speedupTime);
+                break;
+            }
         }
+
+        //if (distanceCounter >= 500 && canSpeedUp == true)
+        //{
+        //    SpeedUp();
+        //}
 
         HandleInput();
     }

@@ -23,7 +23,7 @@ GameObject:
   m_Layer: 0
   m_Name: LevelGenerator
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -51,11 +51,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd5ca3c59d6870348be33b472d751629, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numInitialTiles: 50
+  numInitialTiles: 6
   sectionLength: 8
-  jumpLength: 2
+  jumpLength: 4
+  medSpawnerThreshhold: 100
+  hardSpawnerThreshhold: 400
   PlayerCharacterRef: {fileID: 0}
   Floor: {fileID: 114954186911012962, guid: f120c54d7b22ac84eb0ca4e7c86d6987, type: 2}
   Gap: {fileID: 114773120930759488, guid: 919515151b406144987731fc7e290c49, type: 2}
   ImpassableGap: {fileID: 114023372062539534, guid: b817a4e3cf4c4c641972a2a7bb63a92c,
+    type: 2}
+  Wall: {fileID: 114148041597879072, guid: 1fcf936b9046b7f429e45471246b08ce, type: 2}
+  ImpassableWall: {fileID: 114729268554371888, guid: 90049c34b2b2563418bd858384dc77b7,
     type: 2}
