@@ -39,7 +39,7 @@ public class PlayerCharacter : MonoBehaviour
     private bool isLayerA = true;
 
     // Distance Stuff
-    public Text distanceText;
+    public Text[] scoreText;
     public float distanceTravelled = 0;
     public float distanceCounter = 0;
 
@@ -81,7 +81,8 @@ public class PlayerCharacter : MonoBehaviour
 
         distanceTravelled += Vector2.Distance(transform.position, lastPosition);
         lastPosition = transform.position;
-        distanceText.text = "Meters: " + distanceTravelled.ToString("f0");
+        scoreText[0].text = distanceTravelled.ToString("N0");
+        scoreText[1].text = distanceTravelled.ToString("N0");
 
         distanceCounter += Vector2.Distance(transform.position, lastCounter);
         lastCounter = transform.position;
