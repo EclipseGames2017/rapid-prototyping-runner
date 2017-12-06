@@ -287,42 +287,27 @@ public class LevelGenrator : MonoBehaviour
         if (PlayerCharacterRef.transform.position.y < -10 && PlayerCharacterRef.isLayerA == true)
         {
             //Application.LoadLevel(Application.loadedLevel);
-            if (Time.timeScale == 1)
-            {
-                Time.timeScale = 0;
-                PlayerCharacterRef.FailScreenA.SetActive(true);
-                PlayerCharacterRef.CanvasA.SetActive(false);
-            }  
+            PlayerCharacterRef.FailScreenA.SetActive(true);
+            PlayerCharacterRef.CanvasA.SetActive(false); 
         }
 
         if (PlayerCharacterRef.transform.position.y < -10 && PlayerCharacterRef.isLayerA == false)
         {
             //Application.LoadLevel(Application.loadedLevel);
-            if (Time.timeScale == 1)
-            {
-                Time.timeScale = 0;
-                PlayerCharacterRef.FailScreenB.SetActive(true);
-                PlayerCharacterRef.CanvasB.SetActive(false);
-            }
+            PlayerCharacterRef.FailScreenB.SetActive(true);
+            PlayerCharacterRef.CanvasB.SetActive(false);
         }
 
         if (PlayerCharacterRef.transform.position.y > -10 && PlayerCharacterRef.isLayerA == false)
         {
-            if (Time.timeScale == 0)
-            {
-                Time.timeScale = 1;
-                PlayerCharacterRef.FailScreenB.SetActive(false);
-                
-            }
+            PlayerCharacterRef.FailScreenB.SetActive(false);
         }
 
         if (PlayerCharacterRef.transform.position.y > -10 && PlayerCharacterRef.isLayerA == true)
         {
-            if (Time.timeScale == 0)
-            {
-                Time.timeScale = 1;
-                PlayerCharacterRef.FailScreenA.SetActive(false);
-            }
+            
+            PlayerCharacterRef.FailScreenA.SetActive(false);
+
         }
     }
 }
