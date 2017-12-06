@@ -47,6 +47,7 @@ using UnityEngine.SceneManagement;
         // Distance Stuff
         public Text[] scoreText;
         public Text highScoreText;
+        public Text highScoreBText;
         public float distanceTravelled = 0;
         public float distanceCounter = 0;
 
@@ -92,6 +93,7 @@ using UnityEngine.SceneManagement;
             dragDistance = Screen.height * 20 / 100; //Drag distance is x% height of the screen.
 
             highScoreText.text = "High Score: " + highScore.ToString("F0");
+
         }
 
         // Update is called once per frame
@@ -108,7 +110,12 @@ using UnityEngine.SceneManagement;
                 highScoreText.text = "HS: " + highScore.ToString("F0");
             }
 
-            if (distanceTravelled >= highScore)
+        if (distanceTravelled >= 0.1f)
+        {
+            highScoreBText.text = "HS: " + highScore.ToString("F0");
+        }
+
+        if (distanceTravelled >= highScore)
             {
                 highScore = distanceTravelled;
                 SaveDataManager<RunnerSaveData>.data.highscore = highScore;
@@ -253,14 +260,19 @@ using UnityEngine.SceneManagement;
             Debug.DrawLine(wallCheckStart.position, wallCheckEnd.position);
             if (Physics2D.Linecast(wallCheckStart.position, wallCheckEnd.position, 1 << collisionObject.layer) && isLayerA)
             {
-                //SceneManager.LoadScene("GameOverTest", LoadSceneMode.Single);
-                //FailScreen.SetActive(true);
+                Debug.Log("Dead");
                 FailScreenA.SetActive(true);
                 CanvasA.SetActive(false);
+                m_Rigid.simulated = false;
             }
-            else
-            {
-            FailScreenB.SetActive(true);
+
+            if (Physics2D.Linecast(wallCheckStart.position, wallCheckEnd.position, 1 << collisionObject.layer) && !isLayerA)
+            { 
+
+                FailScreenB.SetActive(true);
+                CanvasB.SetActive(false);
+                m_Rigid.simulated = false;
+
             }
 
 

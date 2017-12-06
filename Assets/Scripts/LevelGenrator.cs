@@ -288,7 +288,8 @@ public class LevelGenrator : MonoBehaviour
         {
             //Application.LoadLevel(Application.loadedLevel);
             PlayerCharacterRef.FailScreenA.SetActive(true);
-            PlayerCharacterRef.CanvasA.SetActive(false); 
+            PlayerCharacterRef.CanvasA.SetActive(false);
+            PlayerCharacterRef.m_Rigid.simulated = false;
         }
 
         if (PlayerCharacterRef.transform.position.y < -10 && PlayerCharacterRef.isLayerA == false)
@@ -296,6 +297,7 @@ public class LevelGenrator : MonoBehaviour
             //Application.LoadLevel(Application.loadedLevel);
             PlayerCharacterRef.FailScreenB.SetActive(true);
             PlayerCharacterRef.CanvasB.SetActive(false);
+            PlayerCharacterRef.m_Rigid.simulated = false;
         }
 
         if (PlayerCharacterRef.transform.position.y > -10 && PlayerCharacterRef.isLayerA == false)
