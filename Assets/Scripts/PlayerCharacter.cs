@@ -41,7 +41,7 @@ public class PlayerCharacter : MonoBehaviour
 
     // Layer Settings
     private int layerA = 8, layerB = 9;
-    private bool isLayerA = true;
+    public bool isLayerA = true;
 
     // Distance Stuff
     public Text[] scoreText;
@@ -57,8 +57,11 @@ public class PlayerCharacter : MonoBehaviour
 
     public Text spendableCrystalsText;
 
-    public GameObject FailScreen;
-    
+    public GameObject FailScreenA;
+    public GameObject FailScreenB;
+    public GameObject CanvasA;
+    public GameObject CanvasB;
+
     // Touch Stuff
     private Vector2 touchStart;
     private float dragDistance;
@@ -225,10 +228,20 @@ public class PlayerCharacter : MonoBehaviour
 
         Vector2 wall = wallCheckEnd.position - wallCheckStart.position;
         Debug.DrawLine(wallCheckStart.position, wallCheckEnd.position);
-        if (Physics2D.Linecast(wallCheckStart.position, wallCheckEnd.position, 1 << collisionObject.layer))
+        if (Physics2D.Linecast(wallCheckStart.position, wallCheckEnd.position, 1 << collisionObject.layer) && isLayerA)
         {
             //SceneManager.LoadScene("GameOverTest", LoadSceneMode.Single);
-            FailScreen.SetActive(true);
+            //FailScreen.SetActive(true);
+            FailScreenA.SetActive(true);
+            CanvasA.SetActive(false);
+        }
+
+        if (Physics2D.Linecast(wallCheckStart.position, wallCheckEnd.position, 1 << collisionObject.layer) && !isLayerA)
+        {
+            //SceneManager.LoadScene("GameOverTest", LoadSceneMode.Single);
+            //FailScreen.SetActive(true);
+            FailScreenB.SetActive(true);
+            CanvasB.SetActive(false);
         }
 
 
