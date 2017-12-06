@@ -76,9 +76,16 @@ using UnityEngine.SceneManagement;
 
         public bool IsLayerA { get { return isLayerA; } }
 
+    #region Stuff Jamie Added
+    int fingerID = -1;
+    Vector2 touchStartPosition = -Vector2.one;
+    float touchStartTime = -1;
+    float timeForTap = 0.075f;
+    float maxDistanceForTap = 20f;
+    #endregion
 
-        // Use this for initialization
-        void Start()
+    // Use this for initialization
+    void Start()
         {
             highScore = SaveDataManager<RunnerSaveData>.data.highscore;
 
@@ -110,12 +117,12 @@ using UnityEngine.SceneManagement;
                 highScoreText.text = "HS: " + highScore.ToString("F0");
             }
 
-        if (distanceTravelled >= 0.1f)
-        {
-            highScoreBText.text = "HS: " + highScore.ToString("F0");
-        }
+            if (distanceTravelled >= 0.1f)
+            {
+                highScoreBText.text = "HS: " + highScore.ToString("F0");
+            }
 
-        if (distanceTravelled >= highScore)
+            if (distanceTravelled >= highScore)
             {
                 highScore = distanceTravelled;
                 SaveDataManager<RunnerSaveData>.data.highscore = highScore;
@@ -184,43 +191,82 @@ using UnityEngine.SceneManagement;
             }
         }
 
-        private void DoTouchInput()
+    private void DoTouchInput()
+    {
+        #region Stuff Jamie Added
+        if (fingerID == -1) // If we have no finger ID...
         {
-            if (Input.touches.Length > 0)
+            if (Input.touchCount > 0) // ...and we have at least one touch...
             {
-                Touch touch0 = Input.touches[0];
-                switch (touch0.phase)
+                foreach (Touch t in Input.touches) // ...check each touch...
                 {
-                    case TouchPhase.Began:
-                        touchStart = touch0.position;
+                    if (t.phase == TouchPhase.Began) // ...until we get one with a phase of Began.
+                    {
+                        fingerID = t.fingerId; // Store the finger ID
+                        touchStartPosition = t.position; // Store the start position
+                        touchStartTime = Time.time; // Store the start time of the touch
                         break;
-                    case TouchPhase.Moved:
-                        break;
-                    case TouchPhase.Stationary:
-                        break;
-                    case TouchPhase.Ended:
-
-                        float distance = Vector2.Distance(touchStart, touch0.position);
-
-                        if (distance > dragDistance)
-                        {
-                            HandleSwipeInput();
-                        }
-                        else
-                        {
-                            HandleTapInput();
-                        }
-                        touchStart = Vector2.zero;
-                        break;
-                    case TouchPhase.Canceled:
-                        break;
-                    default:
-                        break;
+                    }
                 }
             }
         }
+        else
+        {
+            if (Input.touchCount > 0)
+            {
+                foreach (Touch t in Input.touches)
+                {
+                    if (t.fingerId == fingerID)
+                    {
+                        if (t.phase == TouchPhase.Canceled)
+                        {
+                            ResetTouchInput();
+                        }
 
-        private void HandleTapInput()
+                        else if (t.phase == TouchPhase.Ended)
+                        {
+                            float distance = Vector2.Distance(touchStartPosition, t.position);
+
+                            if (distance <= maxDistanceForTap)
+                                HandleTapInput();
+                            else
+                                HandleSwipeInput();
+
+                            ResetTouchInput();
+                        }
+
+                        else if (Time.time - touchStartTime >= timeForTap)
+                        {
+                            float distance = Vector2.Distance(touchStartPosition, t.position);
+
+                            if (distance <= maxDistanceForTap)
+                                HandleTapInput();
+                            else
+                                HandleSwipeInput();
+
+                            ResetTouchInput();
+                        }
+
+                        break;
+                    }
+                }
+            }
+            else // If we have a finger ID but no touches, reset.
+            {
+                ResetTouchInput();
+            }
+        }
+    }
+
+    void ResetTouchInput()
+    {
+        fingerID = -1;
+        touchStartPosition = -Vector2.one;
+        touchStartTime = -1;
+    }
+    #endregion
+
+    private void HandleTapInput()
         {
             if (canJump)
             {
