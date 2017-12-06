@@ -65,6 +65,9 @@ public class PlayerCharacter : MonoBehaviour
     // Touch Stuff
     private Vector2 touchStart;
     private float dragDistance;
+    private float TTapDetect;
+    private float tapDetectTime = 0.05f;
+    private bool isTouchHandled;
 
     public bool IsLayerA { get { return isLayerA; } }
 
@@ -163,24 +166,48 @@ public class PlayerCharacter : MonoBehaviour
             {
                 case TouchPhase.Began:
                     touchStart = touch0.position;
+                    TTapDetect = Time.time + tapDetectTime;
+                    isTouchHandled = false;
                     break;
                 case TouchPhase.Moved:
-                    break;
                 case TouchPhase.Stationary:
+                    if (!isTouchHandled)
+                    {
+                        float distance = Vector2.Distance(touchStart, touch0.position);
+                        if (distance < dragDistance)
+                        {
+                            // not moved enough
+                            if (Time.time > TTapDetect)
+                            {
+                                HandleTapInput();
+                                isTouchHandled = true;
+                            }
+                        }
+                        else
+                        {
+
+                        }
+
+
+                        if (distance > dragDistance)
+                        {
+                            HandleSwipeInput();
+                        }
+                        else
+                        {
+                            if (Time.time > TTapDetect)
+                            {
+                                HandleTapInput();
+                            }
+                        }
+                        touchStart = Vector2.zero;
+                    }
                     break;
                 case TouchPhase.Ended:
 
-                    float distance = Vector2.Distance(touchStart, touch0.position);
-
-                    if (distance > dragDistance)
+                    if (!isTouchHandled)
                     {
-                        HandleSwipeInput();
                     }
-                    else
-                    {
-                        HandleTapInput();
-                    }
-                    touchStart = Vector2.zero;
                     break;
                 case TouchPhase.Canceled:
                     break;
@@ -197,16 +224,18 @@ public class PlayerCharacter : MonoBehaviour
             doJump = true;
 
         }
+        isTouchHandled = true;
     }
 
     private void HandleSwipeInput()
     {
-        Debug.Log("Left Swipe");
+        Debug.Log("Swipe");
         isLayerA = !isLayerA;
         collisionObject.layer = isLayerA ? layerA : layerB;
 
         m_Anim.SetBool("isZoneA", isLayerA);
         spendableTimeCrystals--;
+        isTouchHandled = true;
     }
 
 #endregion
