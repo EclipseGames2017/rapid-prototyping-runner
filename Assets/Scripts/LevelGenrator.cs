@@ -78,15 +78,12 @@ public class LevelGenrator : MonoBehaviour
                 ETileType.Gap,
                 new ETileType[]{
                     ETileType.Floor,
-                    ETileType.Wall,
                 }
             },
             {
                 ETileType.Wall,
                 new ETileType[]{
                     ETileType.Floor,
-                    ETileType.Gap,
-                    ETileType.Wall
                 }
             }
 
