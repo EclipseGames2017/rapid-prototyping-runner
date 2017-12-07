@@ -222,11 +222,11 @@ public class LevelGenrator : MonoBehaviour
         // list of tiles i'm allowed to spawn
 
         ETileType[] availableTiles;
-        if (PlayerCharacterRef.distanceTravelled < medSpawnerThreshhold)
+        if (PlayerCharacterRef.DistanceTravelled < medSpawnerThreshhold)
         {
             availableTiles = spawnRulesEasy[mLastTile.TileType];
         }
-        else if (PlayerCharacterRef.distanceTravelled >= medSpawnerThreshhold)
+        else if (PlayerCharacterRef.DistanceTravelled >= medSpawnerThreshhold)
         {
             availableTiles = spawnRulesMedeum[mLastTile.TileType];
         }
@@ -284,26 +284,26 @@ public class LevelGenrator : MonoBehaviour
             AddNewTile();
         }
 
-        if (PlayerCharacterRef.transform.position.y < -10 && PlayerCharacterRef.isLayerA == true)
+        if (PlayerCharacterRef.transform.position.y < -10 && PlayerCharacterRef.IsLayerA == true)
         {
             //Application.LoadLevel(Application.loadedLevel);
             //PlayerCharacterRef.FailScreenA.SetActive(true);
             PlayerCharacterRef.m_Rigid.simulated = false;
         }
 
-        if (PlayerCharacterRef.transform.position.y < -10 && PlayerCharacterRef.isLayerA == false)
+        if (PlayerCharacterRef.transform.position.y < -10 && PlayerCharacterRef.IsLayerA == false)
         {
             //Application.LoadLevel(Application.loadedLevel);
             //PlayerCharacterRef.FailScreenB.SetActive(true);
             PlayerCharacterRef.m_Rigid.simulated = false;
         }
 
-        if (PlayerCharacterRef.transform.position.y > -10 && PlayerCharacterRef.isLayerA == false)
+        if (PlayerCharacterRef.transform.position.y > -10 && PlayerCharacterRef.IsLayerA == false)
         {
             PlayerCharacterRef.FailScreenB.SetActive(false);
         }
 
-        if (PlayerCharacterRef.transform.position.y > -10 && PlayerCharacterRef.isLayerA == true)
+        if (PlayerCharacterRef.transform.position.y > -10 && PlayerCharacterRef.IsLayerA == true)
         {
             
             PlayerCharacterRef.FailScreenA.SetActive(false);

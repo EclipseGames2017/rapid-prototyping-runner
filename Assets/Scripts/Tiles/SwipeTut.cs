@@ -31,7 +31,7 @@ public class SwipeTut : MonoBehaviour {
     {
         yield return new WaitForSeconds(1);
 
-        if (PlayerCharacterRef.isLayerA == true)
+        if (PlayerCharacterRef.IsLayerA == true)
         {
             Debug.Log("Jump");
             PlayerCharacterRef.HandleSwipeInput();

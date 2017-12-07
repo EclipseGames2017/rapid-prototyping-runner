@@ -31,7 +31,7 @@ public class Tutorial : MonoBehaviour {
     {
         yield return new WaitForSeconds(1);
 
-        if (playerCharacter.doJump == true)
+        if (playerCharacter.DoJump == true)
         {
             Debug.Log("Jump");
             PlayerCharacterRef.m_Rigid.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);

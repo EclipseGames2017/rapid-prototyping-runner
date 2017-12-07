@@ -15,67 +15,78 @@ using UnityEngine.UI;
 using FallingSloth;
 using UnityEngine.SceneManagement;
 
-    public class PlayerCharacter : MonoBehaviour
-    {
-        [Header("Movement")]
-        public int jumpForce = 20;
-        public float moveSpeed = 10;
+public class PlayerCharacter : MonoBehaviour
+{
+    const string HIGH_SCORE_KEY = "High Score";
 
-        public float speedupTime;
-        public Vector2[] distanceSpeedMap;
+    [Header("Movement")]
+    [Range(10, 50)]
+    public int jumpForce = 20;
+    public float moveSpeed = 10;
 
-        private float movespeedHard = 15;
+    [Range(1, 30), Tooltip("Time in seconds to transition to the new speed.")]
+    public float speedupTime;
+    [Tooltip("Distance Traveled, Speed at that distance.")]
+    public Vector2[] distanceSpeedMap;
 
-        public bool doJump;
+    // Jump Stuff
+    private bool doJump;
+    private bool canJump = false;
+    //public bool canSpeedUp = true;
+    //private float movespeedHard = 15;
 
-        private bool canJump = false;
-        public bool canSpeedUp = true;
+    // Transforms for drawing raycasts between
+    [Header("Collision Check handles")]
+    public Transform jumpCheckStart;
+    public Transform jumpCheckEnd;
+    public Transform wallCheckStart;
+    public Transform wallCheckEnd;
 
-        public Transform jumpCheckStart, jumpCheckEnd;
-        public Transform wallCheckStart, wallCheckEnd;
+    [Header("Personal component Referances")]
+    public Rigidbody2D m_Rigid;
+    public Animator m_Anim;
+    public GameObject collisionObject;
+    public IE_DualCameraBlend cameraEffect;
 
-        [Header("Personal component Referances")]
-        public Rigidbody2D m_Rigid;
-        public Animator m_Anim;
-        public GameObject collisionObject;
-        public IE_DualCameraBlend cameraEffect;
+    // Distance Stuff
+    [Header("GUI Referances")]
+    public Text[] scoreText;
+    public Text highScoreText;
+    public Text highScoreBText;
+    public GameObject FailScreenA;
+    public GameObject FailScreenB;
+    public GameObject CanvasA;
+    public GameObject CanvasB;
 
-        // Layer Settings
-        private int layerA = 8, layerB = 9;
-        public bool isLayerA = true;
+    // Distance and Score
+    private float distanceTravelled = 0;
+    private float distanceCounter = 0;
 
-        // Distance Stuff
-        public Text[] scoreText;
-        public Text highScoreText;
-        public Text highScoreBText;
-        public float distanceTravelled = 0;
-        public float distanceCounter = 0;
+    public Text spendableCrystalsText;
 
-        [HideInInspector]
-        public float highScore;
+    // Layer Settings
+    private int layerA = 8, layerB = 9;
+    private bool isLayerA = true;
 
-        const string highScoreKey = "High Score";
+    [HideInInspector]
+    public float highScore;
 
-        Vector2 lastPosition;
-        Vector2 lastCounter;
+    Vector2 lastPosition;
+    Vector2 lastCounter;
 
-        // Time Crystal Stuff
-        private int spendableTimeCrystals = 5;
-        private int totalTimeCrystals;
+    // Time Crystal Stuff
+    private int spendableTimeCrystals = 5;
+    private int totalTimeCrystals;
 
-        public Text spendableCrystalsText;
+    // Properties
+    public bool IsLayerA { get { return isLayerA; } }
 
-        public GameObject FailScreenA;
-        public GameObject FailScreenB;
-        public GameObject CanvasA;
-        public GameObject CanvasB;
+    public float DistanceTravelled { get { return distanceTravelled; } }
 
-        // Touch Stuff
-        private Vector2 touchStart;
-        private float dragDistance;
+    public bool DoJump { get { return doJump; } }
 
-        public bool IsLayerA { get { return isLayerA; } }
-
+    [Header("Touch Settings")]
+    private float dragDistance;
     #region Stuff Jamie Added
     int fingerID = -1;
     Vector2 touchStartPosition = -Vector2.one;
@@ -134,7 +145,7 @@ using UnityEngine.SceneManagement;
 
             spendableCrystalsText.text = "CanJump: " + canJump;
 
-            canSpeedUp = true;
+            //canSpeedUp = true;
 
             for (int i = 1; i < distanceSpeedMap.Length; i++)
             {
@@ -153,12 +164,12 @@ using UnityEngine.SceneManagement;
             HandleInput();
         }
 
-        private void SpeedUp()
-        {
-            moveSpeed += 2;
-            canSpeedUp = false;
-            distanceCounter -= 500;
-        }
+        //private void SpeedUp()
+        //{
+        //    moveSpeed += 2;
+        //    canSpeedUp = false;
+        //    distanceCounter -= 500;
+        //}
 
         private void CollectCrystal()
         {
