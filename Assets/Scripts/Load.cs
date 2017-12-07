@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using FallingSloth;
 
 public class Load : MonoBehaviour {
 
@@ -28,6 +29,18 @@ public class Load : MonoBehaviour {
     {
         SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
         //Application.LoadLevel("MainMenu");
+    }
+
+    public void LoadTutorial()
+    {
+        if (SaveDataManager<RunnerSaveData>.data.tutorialSeen)
+        {
+            LoadGame();
+        }
+        else
+        {
+            SceneManager.LoadScene("Tutorial", LoadSceneMode.Single);
+        }
     }
 
     public void ShowIGM()
