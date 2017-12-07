@@ -26,7 +26,7 @@ using UnityEngine.SceneManagement;
 
         private float movespeedHard = 15;
 
-        private bool doJump;
+        public bool doJump;
 
         private bool canJump = false;
         public bool canSpeedUp = true;
@@ -179,7 +179,7 @@ using UnityEngine.SceneManagement;
 
         }
 
-        private void DoPCInput()
+        public void DoPCInput()
         {
             if (Input.GetButtonDown("Fire1"))
             {
@@ -191,7 +191,7 @@ using UnityEngine.SceneManagement;
             }
         }
 
-    private void DoTouchInput()
+    public void DoTouchInput()
     {
         #region Stuff Jamie Added
         if (fingerID == -1) // If we have no finger ID...
@@ -266,7 +266,7 @@ using UnityEngine.SceneManagement;
     }
     #endregion
 
-    private void HandleTapInput()
+    public void HandleTapInput()
         {
             if (canJump)
             {
@@ -275,7 +275,7 @@ using UnityEngine.SceneManagement;
             }
         }
 
-        private void HandleSwipeInput()
+        public void HandleSwipeInput()
         {
             Debug.Log("Left Swipe");
             isLayerA = !isLayerA;
@@ -308,7 +308,6 @@ using UnityEngine.SceneManagement;
             {
                 Debug.Log("Dead");
                 FailScreenA.SetActive(true);
-                CanvasA.SetActive(false);
                 m_Rigid.simulated = false;
             }
 
@@ -316,7 +315,6 @@ using UnityEngine.SceneManagement;
             { 
 
                 FailScreenB.SetActive(true);
-                CanvasB.SetActive(false);
                 m_Rigid.simulated = false;
 
             }
