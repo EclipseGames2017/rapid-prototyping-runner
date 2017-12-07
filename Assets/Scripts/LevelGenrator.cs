@@ -45,7 +45,7 @@ public class LevelGenrator : MonoBehaviour
     // what was the last tile
     private TileBase mLastTile;
     // how far off the screen should a tile be before i delete it
-    private float offscreenDistance = 8.0f;
+    private float offscreenDistance = 12.0f;
 
     // Use this for initialization
     void Start()
