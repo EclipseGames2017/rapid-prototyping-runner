@@ -312,7 +312,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1908862546383446}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.555, y: -0.318, z: 0}
+  m_LocalPosition: {x: 0.57, y: -0.318, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4436929739245850}
@@ -366,7 +366,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1781602918792712}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.555, y: 0.5, z: 0}
+  m_LocalPosition: {x: 0.555, y: 0.32, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4436929739245850}
@@ -616,9 +616,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98b37a0884d2e6447b2c593079b69259, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 20
+  jumpForce: 30
   moveSpeed: 10
-  canSpeedUp: 1
+  speedupTime: 10
+  distanceSpeedMap:
+  - {x: 0, y: 10}
+  - {x: 100, y: 15}
+  - {x: 500, y: 20}
   jumpCheckStart: {fileID: 4174455536197896}
   jumpCheckEnd: {fileID: 4709812285949860}
   wallCheckStart: {fileID: 4911148300701860}
@@ -630,10 +634,14 @@ MonoBehaviour:
   scoreText:
   - {fileID: 0}
   - {fileID: 0}
-  distanceTravelled: 0
-  distanceCounter: 0
+  highScoreText: {fileID: 0}
+  highScoreBText: {fileID: 0}
+  FailScreenA: {fileID: 0}
+  FailScreenB: {fileID: 0}
+  CanvasA: {fileID: 0}
+  CanvasB: {fileID: 0}
   spendableCrystalsText: {fileID: 0}
-  FailScreen: {fileID: 0}
+  highScore: 0
 --- !u!114 &114434927560246348
 MonoBehaviour:
   m_ObjectHideFlags: 1

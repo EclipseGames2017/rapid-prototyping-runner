@@ -85,6 +85,7 @@ public class PlayerCharacter : MonoBehaviour
 
     public bool DoJump { get { return doJump; } }
 
+#if TOUCHMODE
     [Header("Touch Settings")]
     private float dragDistance;
     #region Stuff Jamie Added
@@ -95,116 +96,119 @@ public class PlayerCharacter : MonoBehaviour
     float maxDistanceForTap = 20f;
     #endregion
 
+#endif
     // Use this for initialization
     void Start()
+    {
+        highScore = SaveDataManager<RunnerSaveData>.data.highscore;
+
+        collisionObject.layer = isLayerA ? layerA : layerB;
+
+        m_Anim.SetBool("isZoneA", isLayerA);
+
+        lastPosition = transform.position;
+
+        lastCounter = transform.position;
+
+#if TOUCHMODE
+        dragDistance = Screen.height * 20 / 100; //Drag distance is x% height of the screen.
+#endif
+
+        highScoreText.text = "High Score: " + highScore.ToString("F0");
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+        distanceTravelled += Vector2.Distance(transform.position, lastPosition);
+        lastPosition = transform.position;
+        scoreText[0].text = distanceTravelled.ToString("N0");
+        scoreText[1].text = distanceTravelled.ToString("N0");
+
+        if (distanceTravelled >= 0.1f)
         {
-            highScore = SaveDataManager<RunnerSaveData>.data.highscore;
-
-            collisionObject.layer = isLayerA ? layerA : layerB;
-
-            m_Anim.SetBool("isZoneA", isLayerA);
-
-            lastPosition = transform.position;
-
-            lastCounter = transform.position;
-
-            dragDistance = Screen.height * 20 / 100; //Drag distance is x% height of the screen.
-
-            highScoreText.text = "High Score: " + highScore.ToString("F0");
-
+            highScoreText.text = "HS: " + highScore.ToString("F0");
         }
 
-        // Update is called once per frame
-        void Update()
+        if (distanceTravelled >= 0.1f)
         {
-
-            distanceTravelled += Vector2.Distance(transform.position, lastPosition);
-            lastPosition = transform.position;
-            scoreText[0].text = distanceTravelled.ToString("N0");
-            scoreText[1].text = distanceTravelled.ToString("N0");
-
-            if (distanceTravelled >= 0.1f)
-            {
-                highScoreText.text = "HS: " + highScore.ToString("F0");
-            }
-
-            if (distanceTravelled >= 0.1f)
-            {
-                highScoreBText.text = "HS: " + highScore.ToString("F0");
-            }
-
-            if (distanceTravelled >= highScore)
-            {
-                highScore = distanceTravelled;
-                SaveDataManager<RunnerSaveData>.data.highscore = highScore;
-                SaveDataManager<RunnerSaveData>.SaveData();
-            }
-
-            distanceCounter += Vector2.Distance(transform.position, lastCounter);
-            lastCounter = transform.position;
-
-            spendableCrystalsText.text = "CanJump: " + canJump;
-
-            //canSpeedUp = true;
-
-            for (int i = 1; i < distanceSpeedMap.Length; i++)
-            {
-                if (distanceTravelled > distanceSpeedMap[i - 1].x && distanceTravelled < distanceSpeedMap[i].x)
-                {
-                    moveSpeed = Mathf.Lerp(moveSpeed, distanceSpeedMap[i - 1].y, Time.deltaTime / speedupTime);
-                    break;
-                }
-            }
-
-            //if (distanceCounter >= 500 && canSpeedUp == true)
-            //{
-            //    SpeedUp();
-            //}
-
-            HandleInput();
+            highScoreBText.text = "HS: " + highScore.ToString("F0");
         }
 
-        //private void SpeedUp()
+        if (distanceTravelled >= highScore)
+        {
+            highScore = distanceTravelled;
+            SaveDataManager<RunnerSaveData>.data.highscore = highScore;
+            SaveDataManager<RunnerSaveData>.SaveData();
+        }
+
+        distanceCounter += Vector2.Distance(transform.position, lastCounter);
+        lastCounter = transform.position;
+
+        spendableCrystalsText.text = "CanJump: " + canJump;
+
+        //canSpeedUp = true;
+
+        for (int i = 1; i < distanceSpeedMap.Length; i++)
+        {
+            if (distanceTravelled > distanceSpeedMap[i - 1].x && distanceTravelled < distanceSpeedMap[i].x)
+            {
+                moveSpeed = Mathf.Lerp(moveSpeed, distanceSpeedMap[i - 1].y, Time.deltaTime / speedupTime);
+                break;
+            }
+        }
+
+        //if (distanceCounter >= 500 && canSpeedUp == true)
         //{
-        //    moveSpeed += 2;
-        //    canSpeedUp = false;
-        //    distanceCounter -= 500;
+        //    SpeedUp();
         //}
 
-        private void CollectCrystal()
-        {
-            spendableTimeCrystals++;
-            totalTimeCrystals++;
-        }
+        HandleInput();
+    }
 
-        #region Input
-        private void HandleInput()
-        {
-            //handle input for the platform it's on
+    //private void SpeedUp()
+    //{
+    //    moveSpeed += 2;
+    //    canSpeedUp = false;
+    //    distanceCounter -= 500;
+    //}
+
+    private void CollectCrystal()
+    {
+        spendableTimeCrystals++;
+        totalTimeCrystals++;
+    }
+
+#region Input
+    private void HandleInput()
+    {
+        //handle input for the platform it's on
 #if TOUCHMODE
         DoTouchInput();
 #else
-            DoPCInput();
+        DoPCInput();
 #endif
 
 
-        }
+    }
 
-        public void DoPCInput()
+    public void DoPCInput()
+    {
+        if (Input.GetButtonDown("Fire1"))
         {
-            if (Input.GetButtonDown("Fire1"))
-            {
-                HandleSwipeInput();
-            }
-            if (Input.GetButtonDown("Jump") && canJump)
-            {
-                doJump = true;
-            }
+            HandleSwipeInput();
         }
+        if (Input.GetButtonDown("Jump") && canJump)
+        {
+            doJump = true;
+        }
+    }
 
+#if TOUCHMODE
     public void DoTouchInput()
     {
-        #region Stuff Jamie Added
+    #region Stuff Jamie Added
         if (fingerID == -1) // If we have no finger ID...
         {
             if (Input.touchCount > 0) // ...and we have at least one touch...
@@ -268,7 +272,6 @@ public class PlayerCharacter : MonoBehaviour
             }
         }
     }
-
     void ResetTouchInput()
     {
         fingerID = -1;
@@ -278,96 +281,97 @@ public class PlayerCharacter : MonoBehaviour
     #endregion
 
     public void HandleTapInput()
+    {
+        if (canJump)
         {
-            if (canJump)
-            {
-                doJump = true;
-
-            }
-        }
-
-        public void HandleSwipeInput()
-        {
-            Debug.Log("Left Swipe");
-            isLayerA = !isLayerA;
-            collisionObject.layer = isLayerA ? layerA : layerB;
-
-            m_Anim.SetBool("isZoneA", isLayerA);
-            spendableTimeCrystals--;
-        }
-
-        #endregion
-
-        #region Physics
-        private void FixedUpdate()
-        {
-            // DoGroundCheck
-            Vector2 line = jumpCheckEnd.position - jumpCheckStart.position;
-            Debug.DrawLine(jumpCheckStart.position, jumpCheckEnd.position);
-            if (Physics2D.Linecast(jumpCheckStart.position, jumpCheckEnd.position, 1 << collisionObject.layer))
-            {
-                canJump = true;
-            }
-            else
-            {
-                canJump = false;
-            }
-
-            Vector2 wall = wallCheckEnd.position - wallCheckStart.position;
-            Debug.DrawLine(wallCheckStart.position, wallCheckEnd.position);
-            if (Physics2D.Linecast(wallCheckStart.position, wallCheckEnd.position, 1 << collisionObject.layer) && isLayerA)
-            {
-                Debug.Log("Dead");
-                FailScreenA.SetActive(true);
-                m_Rigid.simulated = false;
-            }
-
-            if (Physics2D.Linecast(wallCheckStart.position, wallCheckEnd.position, 1 << collisionObject.layer) && !isLayerA)
-            { 
-
-                FailScreenB.SetActive(true);
-                m_Rigid.simulated = false;
-
-            }
-
-
-            // wold be nice to make this use Mario Jump
-            if (doJump)
-            {
-                m_Rigid.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-                canJump = false;
-                doJump = false;
-            }
-
-            // Move Right
-            m_Rigid.velocity = m_Rigid.velocity.y * Vector2.up + moveSpeed * Vector2.right;
+            doJump = true;
 
         }
-
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-            // bad ground checking
-            // canJump = true;
-
-            /*if (collision.gameObject.name == "WallQuad")
-            {
-                GameOver = true;
-                Time.timeScale = 0;
-                Debug.Log("HIT");
-            }*/
-        }
-
-        private void OnTriggerEnter2D(Collider2D collision)
-        {
-            switch (collision.tag)
-            {
-                case "Time Crystal":
-                    CollectCrystal();
-                    Destroy(collision.gameObject);
-                    break;
-                default:
-                    break;
-            }
-        }
-        #endregion
     }
+#endif
+
+    public void HandleSwipeInput()
+    {
+        Debug.Log("Left Swipe");
+        isLayerA = !isLayerA;
+        collisionObject.layer = isLayerA ? layerA : layerB;
+
+        m_Anim.SetBool("isZoneA", isLayerA);
+        spendableTimeCrystals--;
+    }
+
+#endregion
+
+#region Physics
+    private void FixedUpdate()
+    {
+        // DoGroundCheck
+        //Vector2 line = jumpCheckEnd.position - jumpCheckStart.position;
+        Debug.DrawLine(jumpCheckStart.position, jumpCheckEnd.position);
+        if (Physics2D.Linecast(jumpCheckStart.position, jumpCheckEnd.position, 1 << collisionObject.layer))
+        {
+            canJump = true;
+        }
+        else
+        {
+            canJump = false;
+        }
+
+        //Vector2 wall = wallCheckEnd.position - wallCheckStart.position;
+        Debug.DrawLine(wallCheckStart.position, wallCheckEnd.position);
+        if (Physics2D.Linecast(wallCheckStart.position, wallCheckEnd.position, 1 << collisionObject.layer) && isLayerA)
+        {
+            Debug.Log("Dead");
+            FailScreenA.SetActive(true);
+            m_Rigid.simulated = false;
+        }
+
+        if (Physics2D.Linecast(wallCheckStart.position, wallCheckEnd.position, 1 << collisionObject.layer) && !isLayerA)
+        {
+
+            FailScreenB.SetActive(true);
+            m_Rigid.simulated = false;
+
+        }
+
+
+        // wold be nice to make this use Mario Jump
+        if (doJump)
+        {
+            m_Rigid.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            canJump = false;
+            doJump = false;
+        }
+
+        // Move Right
+        m_Rigid.velocity = m_Rigid.velocity.y * Vector2.up + moveSpeed * Vector2.right;
+
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        // bad ground checking
+        // canJump = true;
+
+        /*if (collision.gameObject.name == "WallQuad")
+        {
+            GameOver = true;
+            Time.timeScale = 0;
+            Debug.Log("HIT");
+        }*/
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        switch (collision.tag)
+        {
+            case "Time Crystal":
+                CollectCrystal();
+                Destroy(collision.gameObject);
+                break;
+            default:
+                break;
+        }
+    }
+#endregion
+}
